@@ -18,17 +18,24 @@ class Persona
 
     public function setNombre ($nombre)
     {
-        $this->nombre = $nombre;
+        if (is_string($nombre) && trim($nombre) !== "" ){
+            $this->nombre = $nombre;
+        }
+           
     }
 
     public function setApellido ($apellido)
     {
-        $this->apellido = $apellido;
+        if (is_string($apellido) && trim ($apellido) !==""){
+            $this->apellido = $apellido;
+            }
     }
 
     public function setEdad ($edad)
     {
-        $this->edad=$edad;
+       if (is_numeric($edad) && $edad > 0 && $edad <= 120) {
+            $this->edad=$edad;
+            }
     }
 
     public function setTelefono ($telefono)
