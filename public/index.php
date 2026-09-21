@@ -1,16 +1,15 @@
 <?php
 
-require_once "../class/Persona.php";
-
-$persona1 = new Persona ("Julian","Palacio","21","3247903417","julianpalaciol2804@gmail.com");
-
-
-$persona1->setNombre("David");
-$persona1->setApellido("Latorre");
-$persona1->setEdad(26);
+require_once __DIR__ . "/../app/controllers/empresaController.php";
+require_once __DIR__ . "/../app/controllers/departamentoController.php";
+require_once __DIR__ . "/../app/controllers/categoriaController.php";
 
 
+$empresa = new empresaController();
+$empresa->index();
 
-echo $persona1->saludar();
+$departamento = new departamentoController();
+$departamento->index();
 
-
+$categoria = new categoriaController();
+$categoria->index();
