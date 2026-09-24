@@ -8,7 +8,7 @@
         <th>Telefono</th>
         <th>Correo</th>
         <th>Fecha-Registro</th>
-    </tr>
+    </tr>   
 
     <?php foreach ($empresas as $empresa): ?>
         <tr>
