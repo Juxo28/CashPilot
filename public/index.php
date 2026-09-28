@@ -3,9 +3,7 @@
 require_once __DIR__ . "/../app/controllers/empresaController.php";
 require_once __DIR__ . "/../app/controllers/departamentoController.php";
 require_once __DIR__ . "/../app/controllers/categoriaController.php";
-require_once __DIR__ . "/../app/controllers/rolController.php";
 require_once __DIR__ . "/../app/controllers/personaController.php";
-require_once __DIR__ . "/../app/controllers/usuarioController.php";
 require_once __DIR__ . "/../app/controllers/gastoController.php";
 require_once __DIR__ . "/../app/controllers/ingresoController.php";
 
@@ -14,9 +12,7 @@ require_once __DIR__ . "/../app/controllers/ingresoController.php";
 <a href="/empresa">Empresa</a> |
 <a href="/departamento">Departamento</a> |
 <a href="/categoria">Categoria</a> |
-<a href="/rol">Rol</a> |
 <a href="/persona">Persona</a> |
-<a href="/usuario">Usuario</a> |
 <a href="/gasto">Gasto</a> |
 <a href="/ingreso">Ingreso</a>
 <hr>
@@ -59,17 +55,6 @@ if ($method === "GET" && $uri === "/categoria") {
     $controller->guardar();
 }
 
-if ($method === "GET" && $uri === "/rol") {
-    $controller = new rolController();
-    $controller->index();
-} if ($method === "GET" && $uri === "/rol/crear") {
-    $controller = new rolController();
-    $controller->crear();
-} if ($method === "POST" && $uri === "/rol") {
-    $controller = new rolController();
-    $controller->guardar();
-}
-
 if ($method === "GET" && $uri === "/persona") {
     $controller = new personaController();
     $controller->index();
@@ -78,17 +63,6 @@ if ($method === "GET" && $uri === "/persona") {
     $controller->crear();
 } if ($method === "POST" && $uri === "/persona") {
     $controller = new personaController();
-    $controller->guardar();
-}
-
-if ($method === "GET" && $uri === "/usuario") {
-    $controller = new usuarioController();
-    $controller->index();
-} if ($method === "GET" && $uri === "/usuario/crear") {
-    $controller = new usuarioController();
-    $controller->crear();
-} if ($method === "POST" && $uri === "/usuario") {
-    $controller = new usuarioController();
     $controller->guardar();
 }
 
