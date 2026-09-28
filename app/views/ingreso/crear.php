@@ -1,34 +1,28 @@
 <h1>Nuevo ingreso</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
-
-<form method="post" action="<?= url('/ingreso') ?>">
-    <label for="id_categoria">Categoría de ingreso</label>
-    <select id="id_categoria" name="id_categoria" required>
-        <option value="">-- Elige --</option>
-        <?php foreach ($categorias as $categoria) : ?>
-            <option value="<?= e($categoria['id_categoria']) ?>"
-                <?= (string) ($old['id_categoria'] ?? '') === (string) $categoria['id_categoria'] ? 'selected' : '' ?>>
-                <?= e($categoria['nombre_categoria']) ?>
-            </option>
+<form method="POST" action="/ingreso">
+    Categoria:<br>
+    <select name="id_categoria">
+        <?php foreach ($categorias as $categoria): ?>
+            <?php if ($categoria['tipo_categoria'] == 'ingreso'): ?>
+                <option value="<?= htmlspecialchars($categoria['id_categoria']) ?>">
+                    <?= htmlspecialchars($categoria['nombre_categoria']) ?>
+                </option>
+            <?php endif; ?>
         <?php endforeach; ?>
-    </select>
+    </select><br><br>
 
-    <label for="monto">Monto <small>(sin puntos de miles, ejemplo: 5000000)</small></label>
-    <input type="text" id="monto" name="monto" inputmode="decimal" required
-           value="<?= e($old['monto'] ?? '') ?>">
+    Monto:<br>
+    <input type="text" name="monto"><br><br>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" required value="<?= e($old['fecha'] ?? '') ?>">
+    Fecha:<br>
+    <input type="date" name="fecha"><br><br>
 
-    <label for="descripcion">Descripción</label>
-    <input type="text" id="descripcion" name="descripcion" maxlength="255" required
-           value="<?= e($old['descripcion'] ?? '') ?>">
+    Descripcion:<br>
+    <input type="text" name="descripcion"><br><br>
 
-    <label for="fuente">Fuente <small>(quién pagó, opcional)</small></label>
-    <input type="text" id="fuente" name="fuente" maxlength="120"
-           value="<?= e($old['fuente'] ?? '') ?>">
+    Fuente:<br>
+    <input type="text" name="fuente"><br><br>
 
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/ingreso') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

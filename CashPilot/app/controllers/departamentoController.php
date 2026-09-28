@@ -2,59 +2,47 @@
 
 require_once __DIR__ . "/../models/departamento.php";
 
-class DepartamentoController
-{
-    public function index()
-    {
+class departamentoController {
+
+    public function index(){
         try {
-            $departamentoModel = new Departamento();
-            $departamentos = $departamentoModel->getAllByEmpresa(ID_EMPRESA_ACTUAL);
+            $departamento = new Departamento();
+            $departamentos = $departamento->getAll();
 
-            require __DIR__ . "/../views/departamento/index.php";
+            require_once __DIR__ . "/../views/departamento/index.php";
         } catch (PDOException $e) {
-            mostrarError("los departamentos", $e);
+            echo "Hay un error en el controlador de departamento";
         }
     }
 
-    public function crear()
-    {
-        $errores = [];
-        $old = [];
-        require __DIR__ . "/../views/departamento/crear.php";
+    public function crear(){
+        require_once __DIR__ . "/../views/departamento/crear.php";
     }
 
-    public function guardar()
-    {
-        $old = [
-            'nombre_departamento' => post('nombre_departamento'),
-            'descripcion'         => post('descripcion'),
-            'presupuesto'         => post('presupuesto'),
-        ];
-        $errores = [];
+    public function guardar(){
+        try {
+            $id_empresa = 1;
+            $nombre_departamento = $_POST['nombre_departamento'];
+            $descripcion = $_POST['descripcion'];
+            $presupuesto = $_POST['presupuesto'];
 
-        if ($old['nombre_departamento'] === '' || mb_strlen($old['nombre_departamento']) > 80) {
-            $errores[] = "El nombre es obligatorio (máximo 80 caracteres).";
-        }
-        if (mb_strlen($old['descripcion']) > 255) {
-            $errores[] = "La descripción no puede superar 255 caracteres.";
-        }
-        // Presupuesto: opcional. Si viene vacío se guarda 0.
-        if ($old['presupuesto'] === '') {
-            $old['presupuesto'] = '0';
-        } elseif (!esMonto($old['presupuesto'])) {
-            $errores[] = "El presupuesto debe ser un número positivo, sin puntos de miles (ejemplo: 15000000 o 15000000.50).";
-        }
-
-        if (empty($errores)) {
-            try {
-                $departamentoModel = new Departamento();
-                $departamentoModel->create(ID_EMPRESA_ACTUAL, $old);
-                redirigir('/departamento?guardado=1');
-            } catch (PDOException $e) {
-                $errores[] = mensajeBD($e);
+            if ($nombre_departamento == "" || !is_numeric($presupuesto)) {
+                echo "El nombre es obligatorio y el presupuesto debe ser un numero";
+                require_once __DIR__ . "/../views/departamento/crear.php";
+                return;
             }
-        }
 
-        require __DIR__ . "/../views/departamento/crear.php";
+            $departamento = new Departamento();
+            $resultado = $departamento->create($id_empresa, $nombre_departamento, $descripcion, $presupuesto);
+
+            if ($resultado) {
+                header("Location: /departamento");
+            } else {
+                echo "No se pudo guardar. Revisa los datos e intenta de nuevo.";
+                require_once __DIR__ . "/../views/departamento/crear.php";
+            }
+        } catch (PDOException $e) {
+            echo "Hay un error en el controlador de departamento al guardar";
+        }
     }
 }

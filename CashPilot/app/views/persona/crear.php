@@ -1,24 +1,17 @@
 <h1>Nueva persona</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
+<form method="POST" action="/persona">
+    Nombre:<br>
+    <input type="text" name="nombre"><br><br>
 
-<form method="post" action="<?= url('/persona') ?>">
-    <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" name="nombre" maxlength="60" required
-           value="<?= e($old['nombre'] ?? '') ?>">
+    Apellido:<br>
+    <input type="text" name="apellido"><br><br>
 
-    <label for="apellido">Apellido</label>
-    <input type="text" id="apellido" name="apellido" maxlength="60" required
-           value="<?= e($old['apellido'] ?? '') ?>">
+    Telefono:<br>
+    <input type="text" name="telefono"><br><br>
 
-    <label for="telefono">Teléfono <small>(opcional)</small></label>
-    <input type="text" id="telefono" name="telefono" maxlength="20"
-           value="<?= e($old['telefono'] ?? '') ?>">
+    Correo:<br>
+    <input type="text" name="correo"><br><br>
 
-    <label for="correo">Correo <small>(opcional)</small></label>
-    <input type="email" id="correo" name="correo" maxlength="120"
-           value="<?= e($old['correo'] ?? '') ?>">
-
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/persona') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

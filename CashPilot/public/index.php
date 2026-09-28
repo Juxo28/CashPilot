@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../config/app.php";
-require_once __DIR__ . "/../config/helpers.php";
-
 require_once __DIR__ . "/../app/controllers/empresaController.php";
 require_once __DIR__ . "/../app/controllers/departamentoController.php";
 require_once __DIR__ . "/../app/controllers/categoriaController.php";
@@ -12,60 +9,110 @@ require_once __DIR__ . "/../app/controllers/usuarioController.php";
 require_once __DIR__ . "/../app/controllers/gastoController.php";
 require_once __DIR__ . "/../app/controllers/ingresoController.php";
 
-// BASE_PATH = carpeta donde vive public/ dentro del servidor.
-//   Sitio en la raíz (VirtualHost)  ->  ''
-//   XAMPP en htdocs/CashPilot/public ->  '/CashPilot/public'
-// Se calcula sola, así el proyecto funciona sin importar dónde lo instales.
-define('BASE_PATH', rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/'));
+?>
 
-// Lista blanca de módulos: nombre en la URL => clase del controlador.
-$modulos = [
-    "empresa"      => "EmpresaController",
-    "departamento" => "DepartamentoController",
-    "categoria"    => "CategoriaController",
-    "rol"          => "RolController",
-    "persona"      => "PersonaController",
-    "usuario"      => "UsuarioController",
-    "gasto"        => "GastoController",
-    "ingreso"      => "IngresoController",
-];
+<a href="/empresa">Empresa</a> |
+<a href="/departamento">Departamento</a> |
+<a href="/categoria">Categoria</a> |
+<a href="/rol">Rol</a> |
+<a href="/persona">Persona</a> |
+<a href="/usuario">Usuario</a> |
+<a href="/gasto">Gasto</a> |
+<a href="/ingreso">Ingreso</a>
+<hr>
 
-// Cada módulo tiene 3 rutas: listar, mostrar el formulario y guardar.
-$rutas = [];
-foreach ($modulos as $nombre => $clase) {
-    $rutas["GET /$nombre"]       = [$clase, "index"];
-    $rutas["GET /$nombre/crear"] = [$clase, "crear"];
-    $rutas["POST /$nombre"]      = [$clase, "guardar"];
+<?php
+
+$method = $_SERVER['REQUEST_METHOD'];
+
+// OJO: aquí estaba el bug. $uri tiene que leer REQUEST_URI, no REQUEST_METHOD otra vez.
+// parse_url() le quita el ?algo=valor si lo llegara a tener, para que la comparación sea exacta.
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+if ($method === "GET" && $uri === "/empresa") {
+    $controller = new empresaController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/empresa/crear") {
+    $controller = new empresaController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/empresa") {
+    $controller = new empresaController();
+    $controller->guardar();
 }
 
-// 1) ¿Qué pidió el navegador? Método (GET/POST) + ruta sin la carpeta base.
-$metodo = $_SERVER['REQUEST_METHOD'];
-$ruta = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);   // quita el ?guardado=1 y similares
-
-if (BASE_PATH !== '' && strpos($ruta, BASE_PATH) === 0) {
-    $ruta = substr($ruta, strlen(BASE_PATH));
-}
-$ruta = '/' . trim($ruta, '/');
-if ($ruta === '/index.php') {
-    $ruta = '/';
-}
-
-// 2) Se ejecuta el controlador DENTRO de un buffer: así, si hace una redirección (header),
-//    todavía no se envió nada al navegador. Lo que "imprime" se guarda en $contenido.
-ob_start();
-
-if ($ruta === '/') {
-    echo "<h1>CashPilot</h1><p>Elige un módulo en el menú.</p>";
-} elseif (isset($rutas["$metodo $ruta"])) {
-    [$clase, $accion] = $rutas["$metodo $ruta"];
-    $controller = new $clase();
-    $controller->$accion();
-} else {
-    http_response_code(404);
-    echo "<h1>404</h1><p>Página no encontrada.</p>";
+if ($method === "GET" && $uri === "/departamento") {
+    $controller = new departamentoController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/departamento/crear") {
+    $controller = new departamentoController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/departamento") {
+    $controller = new departamentoController();
+    $controller->guardar();
 }
 
-$contenido = ob_get_clean();
+if ($method === "GET" && $uri === "/categoria") {
+    $controller = new categoriaController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/categoria/crear") {
+    $controller = new categoriaController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/categoria") {
+    $controller = new categoriaController();
+    $controller->guardar();
+}
 
-// 3) Se dibuja la página completa: menú + contenido del módulo.
-require __DIR__ . "/../app/views/layout.php";
+if ($method === "GET" && $uri === "/rol") {
+    $controller = new rolController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/rol/crear") {
+    $controller = new rolController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/rol") {
+    $controller = new rolController();
+    $controller->guardar();
+}
+
+if ($method === "GET" && $uri === "/persona") {
+    $controller = new personaController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/persona/crear") {
+    $controller = new personaController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/persona") {
+    $controller = new personaController();
+    $controller->guardar();
+}
+
+if ($method === "GET" && $uri === "/usuario") {
+    $controller = new usuarioController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/usuario/crear") {
+    $controller = new usuarioController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/usuario") {
+    $controller = new usuarioController();
+    $controller->guardar();
+}
+
+if ($method === "GET" && $uri === "/gasto") {
+    $controller = new gastoController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/gasto/crear") {
+    $controller = new gastoController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/gasto") {
+    $controller = new gastoController();
+    $controller->guardar();
+}
+
+if ($method === "GET" && $uri === "/ingreso") {
+    $controller = new ingresoController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/ingreso/crear") {
+    $controller = new ingresoController();
+    $controller->crear();
+} if ($method === "POST" && $uri === "/ingreso") {
+    $controller = new ingresoController();
+    $controller->guardar();
+}

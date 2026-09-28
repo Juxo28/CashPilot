@@ -1,55 +1,44 @@
 <h1>Nuevo gasto</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
-
-<form method="post" action="<?= url('/gasto') ?>">
-    <label for="id_departamento">Departamento</label>
-    <select id="id_departamento" name="id_departamento" required>
-        <option value="">-- Elige --</option>
-        <?php foreach ($departamentos as $departamento) : ?>
-            <option value="<?= e($departamento['id_departamento']) ?>"
-                <?= (string) ($old['id_departamento'] ?? '') === (string) $departamento['id_departamento'] ? 'selected' : '' ?>>
-                <?= e($departamento['nombre_departamento']) ?>
+<form method="POST" action="/gasto">
+    Departamento:<br>
+    <select name="id_departamento">
+        <?php foreach ($departamentos as $departamento): ?>
+            <option value="<?= htmlspecialchars($departamento['id_departamento']) ?>">
+                <?= htmlspecialchars($departamento['nombre_departamento']) ?>
             </option>
         <?php endforeach; ?>
-    </select>
+    </select><br><br>
 
-    <label for="id_categoria">Categoría de gasto</label>
-    <select id="id_categoria" name="id_categoria" required>
-        <option value="">-- Elige --</option>
-        <?php foreach ($categorias as $categoria) : ?>
-            <option value="<?= e($categoria['id_categoria']) ?>"
-                <?= (string) ($old['id_categoria'] ?? '') === (string) $categoria['id_categoria'] ? 'selected' : '' ?>>
-                <?= e($categoria['nombre_categoria']) ?>
-            </option>
+    Categoria:<br>
+    <select name="id_categoria">
+        <?php foreach ($categorias as $categoria): ?>
+            <?php if ($categoria['tipo_categoria'] == 'gasto'): ?>
+                <option value="<?= htmlspecialchars($categoria['id_categoria']) ?>">
+                    <?= htmlspecialchars($categoria['nombre_categoria']) ?>
+                </option>
+            <?php endif; ?>
         <?php endforeach; ?>
-    </select>
+    </select><br><br>
 
-    <label for="monto">Monto <small>(sin puntos de miles, ejemplo: 250000)</small></label>
-    <input type="text" id="monto" name="monto" inputmode="decimal" required
-           value="<?= e($old['monto'] ?? '') ?>">
+    Monto:<br>
+    <input type="text" name="monto"><br><br>
 
-    <label for="fecha">Fecha</label>
-    <input type="date" id="fecha" name="fecha" required value="<?= e($old['fecha'] ?? '') ?>">
+    Fecha:<br>
+    <input type="date" name="fecha"><br><br>
 
-    <label for="descripcion">Descripción</label>
-    <input type="text" id="descripcion" name="descripcion" maxlength="255" required
-           value="<?= e($old['descripcion'] ?? '') ?>">
+    Descripcion:<br>
+    <input type="text" name="descripcion"><br><br>
 
-    <label for="metodo_pago">Método de pago</label>
-    <select id="metodo_pago" name="metodo_pago" required>
-        <option value="">-- Elige --</option>
-        <?php foreach ($metodosPago as $metodo) : ?>
-            <option value="<?= e($metodo) ?>" <?= ($old['metodo_pago'] ?? '') === $metodo ? 'selected' : '' ?>>
-                <?= e($metodo) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+    Metodo de pago:<br>
+    <select name="metodo_pago">
+        <option value="Efectivo">Efectivo</option>
+        <option value="Tarjeta">Tarjeta</option>
+        <option value="Transferencia">Transferencia</option>
+    </select><br><br>
 
-    <label for="comprobante">Comprobante <small>(nombre del archivo, opcional)</small></label>
-    <input type="text" id="comprobante" name="comprobante" maxlength="150"
-           value="<?= e($old['comprobante'] ?? '') ?>">
+    Comprobante:<br>
+    <input type="text" name="comprobante"><br><br>
 
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/gasto') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

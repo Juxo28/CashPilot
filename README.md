@@ -4,28 +4,38 @@
 
 Julian David Palacio Latorre
 
-## Descripción
+## Descripcion
 
-CashPilot es una aplicación web de gestión y control financiero (ingresos, gastos, categorías,
-departamentos, usuarios y roles) construida con PHP, MySQL y arquitectura MVC.
+CashPilot es un proyecto de software orientado a la gestión de finanzas personales. Su objetivo es permitir el registro y control de ingresos, gastos y movimientos financieros de manera organizada.
 
-## Cómo ejecutarlo
+## Como ejecutarlo
 
 1. Importa `docs/database.sql` en MySQL (crea la base `cashpilot`).
-2. Copia `.env.example` a `.env` y ajusta los datos de conexión.
-3. Coloca el proyecto en `htdocs` y abre `http://localhost/CashPilot/public/`.
-   (Apache necesita `mod_rewrite` y `AllowOverride All` para leer `public/.htaccess`.)
+2. Copia `.env.example` a `.env` y ajusta los datos.
+3. Abre `http://localhost/CashPilot/public/` en el navegador.
 
-## Estructura
+## Estructura del proyecto
 
 ```text
 CashPilot
-├── config        Database.php, helpers.php, app.php
-├── class         Persona.php (clase de práctica de POO)
-├── public        index.php (router), .htaccess, estilos.css
+│
+├── public
+│   ├── index.php     (router: decide que controlador llamar)
+│   └── .htaccess
+│
 ├── app
-│   ├── controllers   un controlador por módulo (index, crear, guardar)
-│   ├── models        un modelo por tabla
-│   └── views         una carpeta por módulo: index.php (lista) y crear.php (formulario)
-└── docs          database.sql
+│   ├── controllers    (un controlador por modulo, con index/crear/guardar)
+│   ├── models         (un modelo por tabla, con getAll/getByid/create)
+│   └── views          (una carpeta por modulo: index.php y crear.php)
+│
+├── class
+│   └── Persona.php    (clase de práctica de POO, aparte del modelo de BD)
+│
+├── config
+│   └── Database.php
+│
+├── docs
+│   └── database.sql
+│
+└── README.md
 ```

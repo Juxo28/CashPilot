@@ -1,19 +1,21 @@
-<h1>Categorías</h1>
+<h1>Listado de categorias</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/categoria/crear') ?>">Nueva categoría</a></p>
+<a href="/categoria/crear">Nueva categoria</a>
 
-<?php if (!empty($categorias)) : ?>
-    <table>
-        <tr><th>ID</th><th>Nombre</th><th>Tipo</th><th>Descripción</th></tr>
-        <?php foreach ($categorias as $categoria) : ?>
-            <tr>
-                <td><?= e($categoria['id_categoria']) ?></td>
-                <td><?= e($categoria['nombre_categoria']) ?></td>
-                <td><?= e($categoria['tipo_categoria']) ?></td>
-                <td><?= e($categoria['descripcion']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else : ?>
-    <p>No hay categorías para mostrar.</p>
-<?php endif; ?>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Descripcion</th>
+    </tr>
+
+    <?php foreach ($categorias as $categoria): ?>
+        <tr>
+            <td><?= htmlspecialchars($categoria['id_categoria']) ?></td>
+            <td><?= htmlspecialchars($categoria['nombre_categoria']) ?></td>
+            <td><?= htmlspecialchars($categoria['tipo_categoria']) ?></td>
+            <td><?= htmlspecialchars($categoria['descripcion']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

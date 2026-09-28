@@ -1,31 +1,27 @@
-<h1>Ingresos</h1>
+<h1>Listado de ingresos</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/ingreso/crear') ?>">Nuevo ingreso</a></p>
+<a href="/ingreso/crear">Nuevo ingreso</a>
 
-<?php if (!empty($ingresos)) : ?>
-    <table>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Fecha</th>
+        <th>Descripcion</th>
+        <th>Categoria</th>
+        <th>Fuente</th>
+        <th>Usuario</th>
+        <th>Monto</th>
+    </tr>
+
+    <?php foreach ($ingresos as $ingreso): ?>
         <tr>
-            <th>ID</th><th>Fecha</th><th>Descripción</th><th>Categoría</th><th>Fuente</th>
-            <th>Registrado por</th><th class="num">Monto</th>
+            <td><?= htmlspecialchars($ingreso['id_ingreso']) ?></td>
+            <td><?= htmlspecialchars($ingreso['fecha']) ?></td>
+            <td><?= htmlspecialchars($ingreso['descripcion']) ?></td>
+            <td><?= htmlspecialchars($ingreso['nombre_categoria']) ?></td>
+            <td><?= htmlspecialchars($ingreso['fuente']) ?></td>
+            <td><?= htmlspecialchars($ingreso['usuario']) ?></td>
+            <td><?= htmlspecialchars($ingreso['monto']) ?></td>
         </tr>
-        <?php foreach ($ingresos as $ingreso) : ?>
-            <tr>
-                <td><?= e($ingreso['id_ingreso']) ?></td>
-                <td><?= e($ingreso['fecha']) ?></td>
-                <td><?= e($ingreso['descripcion']) ?></td>
-                <td><?= e($ingreso['categoria']) ?></td>
-                <td><?= e($ingreso['fuente']) ?></td>
-                <td><?= e($ingreso['registrado_por']) ?></td>
-                <td class="num"><?= e(dinero($ingreso['monto'])) ?></td>
-            </tr>
-        <?php endforeach; ?>
-        <tfoot>
-            <tr>
-                <td colspan="6">Total de ingresos</td>
-                <td class="num"><?= e(dinero(array_sum(array_column($ingresos, 'monto')))) ?></td>
-            </tr>
-        </tfoot>
-    </table>
-<?php else : ?>
-    <p>No hay ingresos para mostrar.</p>
-<?php endif; ?>
+    <?php endforeach; ?>
+</table>

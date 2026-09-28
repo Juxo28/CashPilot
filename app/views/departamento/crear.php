@@ -1,20 +1,14 @@
 <h1>Nuevo departamento</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
+<form method="POST" action="/departamento">
+    Nombre:<br>
+    <input type="text" name="nombre_departamento"><br><br>
 
-<form method="post" action="<?= url('/departamento') ?>">
-    <label for="nombre_departamento">Nombre</label>
-    <input type="text" id="nombre_departamento" name="nombre_departamento" maxlength="80" required
-           value="<?= e($old['nombre_departamento'] ?? '') ?>">
+    Descripcion:<br>
+    <input type="text" name="descripcion"><br><br>
 
-    <label for="descripcion">Descripción <small>(opcional)</small></label>
-    <input type="text" id="descripcion" name="descripcion" maxlength="255"
-           value="<?= e($old['descripcion'] ?? '') ?>">
+    Presupuesto:<br>
+    <input type="text" name="presupuesto"><br><br>
 
-    <label for="presupuesto">Presupuesto <small>(sin puntos de miles; opcional)</small></label>
-    <input type="text" id="presupuesto" name="presupuesto" inputmode="decimal" placeholder="15000000"
-           value="<?= e($old['presupuesto'] ?? '') ?>">
-
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/departamento') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

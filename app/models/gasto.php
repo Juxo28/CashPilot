@@ -1,62 +1,73 @@
 <?php
 
-require_once __DIR__ . "/../../config/Database.php";
-
-class Gasto
-{
+class Gasto{
     private $connection;
 
     public function __construct()
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    // Tabla principal: gasto (alias g). Se une con categoria (c), departamento (d) y usuario (u).
-    // Cada JOIN relaciona la clave foránea de gasto con la clave primaria de la otra tabla.
-    // AS renombra la columna de salida para que la vista use nombres claros.
-    public function getAllByEmpresa($id_empresa)
+    // Tabla principal: gasto. Se une con categoria, departamento y usuario para mostrar
+    // nombres en vez de solo ids.
+    public function getAll()
     {
-        $sql = "SELECT g.id_gasto,
-                       g.fecha,
-                       g.descripcion,
-                       g.monto,
-                       g.metodo_pago,
-                       c.nombre_categoria    AS categoria,
-                       d.nombre_departamento AS departamento,
-                       u.usuario             AS registrado_por
-                FROM gasto g
-                INNER JOIN categoria    c ON g.id_categoria    = c.id_categoria
-                INNER JOIN departamento d ON g.id_departamento = d.id_departamento
-                INNER JOIN usuario      u ON g.id_usuario      = u.id_usuario
-                WHERE g.id_empresa = :id_empresa
-                ORDER BY g.fecha DESC, g.id_gasto DESC";
+        $sql = "SELECT gasto.id_gasto, gasto.fecha, gasto.descripcion, gasto.monto, gasto.metodo_pago,
+                       categoria.nombre_categoria,
+                       departamento.nombre_departamento,
+                       usuario.usuario
+                FROM gasto
+                INNER JOIN categoria ON gasto.id_categoria = categoria.id_categoria
+                INNER JOIN departamento ON gasto.id_departamento = departamento.id_departamento
+                INNER JOIN usuario ON gasto.id_usuario = usuario.id_usuario";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
+        $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($id_empresa, $id_usuario, $datos)
+    public function getByid($id_gasto)
     {
-        $sql = "INSERT INTO gasto (id_empresa, id_departamento, id_categoria, id_usuario,
-                                   monto, fecha, descripcion, metodo_pago, comprobante)
-                VALUES (:id_empresa, :id_departamento, :id_categoria, :id_usuario,
-                        :monto, :fecha, :descripcion, :metodo_pago, :comprobante)";
+        try {
+            $sql = "SELECT * FROM gasto WHERE id_gasto = :id_gasto";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->bindValue(":id_departamento", $datos['id_departamento'], PDO::PARAM_INT);
-        $consulta->bindValue(":id_categoria", $datos['id_categoria'], PDO::PARAM_INT);
-        $consulta->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        $consulta->bindValue(":monto", $datos['monto']);
-        $consulta->bindValue(":fecha", $datos['fecha']);
-        $consulta->bindValue(":descripcion", $datos['descripcion']);
-        $consulta->bindValue(":metodo_pago", $datos['metodo_pago']);
-        $consulta->bindValue(":comprobante", $datos['comprobante'] !== '' ? $datos['comprobante'] : null);
-        $consulta->execute();
+            $consulta = $this->connection->prepare($sql);
 
-        return (int) $this->connection->lastInsertId();
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_gasto", $id_gasto);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de gasto";
+        }
+    }
+
+    public function create($id_empresa, $id_usuario, $id_departamento, $id_categoria, $monto, $fecha, $descripcion, $metodo_pago, $comprobante)
+    {
+        try {
+            $sql = "INSERT INTO gasto (id_empresa, id_departamento, id_categoria, id_usuario, monto, fecha, descripcion, metodo_pago, comprobante)
+                    VALUES (:id_empresa, :id_departamento, :id_categoria, :id_usuario, :monto, :fecha, :descripcion, :metodo_pago, :comprobante)";
+
+            $consulta = $this->connection->prepare($sql);
+
+            $consulta->bindParam(":id_empresa", $id_empresa);
+            $consulta->bindParam(":id_departamento", $id_departamento);
+            $consulta->bindParam(":id_categoria", $id_categoria);
+            $consulta->bindParam(":id_usuario", $id_usuario);
+            $consulta->bindParam(":monto", $monto);
+            $consulta->bindParam(":fecha", $fecha);
+            $consulta->bindParam(":descripcion", $descripcion);
+            $consulta->bindParam(":metodo_pago", $metodo_pago);
+            $consulta->bindParam(":comprobante", $comprobante);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de gasto";
+        }
     }
 }

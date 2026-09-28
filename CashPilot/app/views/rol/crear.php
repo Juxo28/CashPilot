@@ -1,16 +1,11 @@
 <h1>Nuevo rol</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
+<form method="POST" action="/rol">
+    Nombre:<br>
+    <input type="text" name="nombre_rol"><br><br>
 
-<form method="post" action="<?= url('/rol') ?>">
-    <label for="nombre_rol">Nombre del rol</label>
-    <input type="text" id="nombre_rol" name="nombre_rol" maxlength="40" required
-           value="<?= e($old['nombre_rol'] ?? '') ?>">
+    Descripcion:<br>
+    <input type="text" name="descripcion"><br><br>
 
-    <label for="descripcion">Descripción <small>(opcional)</small></label>
-    <input type="text" id="descripcion" name="descripcion" maxlength="255"
-           value="<?= e($old['descripcion'] ?? '') ?>">
-
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/rol') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

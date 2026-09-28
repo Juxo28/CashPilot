@@ -1,24 +1,27 @@
-<h1>Empresas</h1>
+<h1>Listado de empresas</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/empresa/crear') ?>">Nueva empresa</a></p>
+<a href="/empresa/crear">Nueva empresa</a>
 
-<?php if (!empty($empresas)) : ?>
-    <table>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Nombre_Empresa</th>
+        <th>NIT</th>
+        <th>Direccion</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+        <th>Fecha-Registro</th>
+    </tr>
+
+    <?php foreach ($empresas as $empresa): ?>
         <tr>
-            <th>ID</th><th>Nombre</th><th>NIT</th><th>Dirección</th><th>Teléfono</th><th>Correo</th><th>Registrada</th>
+            <td><?= htmlspecialchars($empresa['id_empresa']) ?></td>
+            <td><?= htmlspecialchars($empresa['nombre_empresa']) ?></td>
+            <td><?= htmlspecialchars($empresa['nit']) ?></td>
+            <td><?= htmlspecialchars($empresa['direccion']) ?></td>
+            <td><?= htmlspecialchars($empresa['telefono']) ?></td>
+            <td><?= htmlspecialchars($empresa['correo']) ?></td>
+            <td><?= htmlspecialchars($empresa['fecha_registro']) ?></td>
         </tr>
-        <?php foreach ($empresas as $empresa) : ?>
-            <tr>
-                <td><?= e($empresa['id_empresa']) ?></td>
-                <td><?= e($empresa['nombre_empresa']) ?></td>
-                <td><?= e($empresa['nit']) ?></td>
-                <td><?= e($empresa['direccion']) ?></td>
-                <td><?= e($empresa['telefono']) ?></td>
-                <td><?= e($empresa['correo']) ?></td>
-                <td><?= e($empresa['fecha_registro']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else : ?>
-    <p>No hay empresas para mostrar.</p>
-<?php endif; ?>
+    <?php endforeach; ?>
+</table>

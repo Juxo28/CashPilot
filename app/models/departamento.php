@@ -1,55 +1,60 @@
 <?php
 
-require_once __DIR__ . "/../../config/Database.php";
-
-class Departamento
-{
+class Departamento{
     private $connection;
 
     public function __construct()
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getAllByEmpresa($id_empresa)
+    public function getAll()
     {
-        $sql = "SELECT id_departamento, nombre_departamento, descripcion, presupuesto
-                FROM departamento
-                WHERE id_empresa = :id_empresa
-                ORDER BY nombre_departamento";
+        $sql = "SELECT * FROM departamento";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
+        $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id_departamento, $id_empresa)
+     public function getByid($id_departamento)
     {
-        $sql = "SELECT id_departamento, nombre_departamento, descripcion, presupuesto
-                FROM departamento
-                WHERE id_departamento = :id_departamento AND id_empresa = :id_empresa";
+        try {
+            $sql = "SELECT * FROM departamento WHERE id_departamento = :id_departamento";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_departamento", $id_departamento, PDO::PARAM_INT);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
-        return $consulta->fetch(PDO::FETCH_ASSOC);
+            $consulta = $this->connection->prepare($sql);
+
+             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_departamento", $id_departamento);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de departamento";
+        }
     }
 
-    public function create($id_empresa, $datos)
+
+    public function create($id_empresa, $nombre_departamento, $descripcion, $presupuesto)
     {
-        $sql = "INSERT INTO departamento (id_empresa, nombre_departamento, descripcion, presupuesto)
-                VALUES (:id_empresa, :nombre_departamento, :descripcion, :presupuesto)";
+        try {
+            $sql = "INSERT INTO departamento (id_empresa, nombre_departamento, descripcion, presupuesto)
+                    VALUES (:id_empresa, :nombre_departamento, :descripcion, :presupuesto)";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->bindValue(":nombre_departamento", $datos['nombre_departamento']);
-        $consulta->bindValue(":descripcion", $datos['descripcion'] !== '' ? $datos['descripcion'] : null);
-        $consulta->bindValue(":presupuesto", $datos['presupuesto']);   // DECIMAL: se envía como texto '1500000.50'
-        $consulta->execute();
+            $consulta = $this->connection->prepare($sql);
 
-        return (int) $this->connection->lastInsertId();
+            $consulta->bindParam(":id_empresa", $id_empresa);
+            $consulta->bindParam(":nombre_departamento", $nombre_departamento);
+            $consulta->bindParam(":descripcion", $descripcion);
+            $consulta->bindParam(":presupuesto", $presupuesto);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de departamento";
+        }
     }
 }

@@ -1,21 +1,25 @@
-<h1>Usuarios</h1>
+<h1>Listado de usuarios</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/usuario/crear') ?>">Nuevo usuario</a></p>
+<a href="/usuario/crear">Nuevo usuario</a>
 
-<?php if (!empty($usuarios)) : ?>
-    <table>
-        <tr><th>ID</th><th>Usuario</th><th>Persona</th><th>Correo</th><th>Rol</th><th>Estado</th></tr>
-        <?php foreach ($usuarios as $usuario) : ?>
-            <tr>
-                <td><?= e($usuario['id_usuario']) ?></td>
-                <td><?= e($usuario['usuario']) ?></td>
-                <td><?= e($usuario['nombre'] . ' ' . $usuario['apellido']) ?></td>
-                <td><?= e($usuario['correo']) ?></td>
-                <td><?= e($usuario['rol']) ?></td>
-                <td><?= $usuario['estado'] ? 'Activo' : 'Inactivo' ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else : ?>
-    <p>No hay usuarios para mostrar.</p>
-<?php endif; ?>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Rol</th>
+        <th>Estado</th>
+    </tr>
+
+    <?php foreach ($usuarios as $usuario): ?>
+        <tr>
+            <td><?= htmlspecialchars($usuario['id_usuario']) ?></td>
+            <td><?= htmlspecialchars($usuario['usuario']) ?></td>
+            <td><?= htmlspecialchars($usuario['nombre']) ?></td>
+            <td><?= htmlspecialchars($usuario['apellido']) ?></td>
+            <td><?= htmlspecialchars($usuario['nombre_rol']) ?></td>
+            <td><?= htmlspecialchars($usuario['estado']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -1,23 +1,17 @@
-<h1>Nueva categoría</h1>
+<h1>Nueva categoria</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
+<form method="POST" action="/categoria">
+    Nombre:<br>
+    <input type="text" name="nombre_categoria"><br><br>
 
-<form method="post" action="<?= url('/categoria') ?>">
-    <label for="nombre_categoria">Nombre</label>
-    <input type="text" id="nombre_categoria" name="nombre_categoria" maxlength="60" required
-           value="<?= e($old['nombre_categoria'] ?? '') ?>">
+    Tipo:<br>
+    <select name="tipo_categoria">
+        <option value="ingreso">Ingreso</option>
+        <option value="gasto">Gasto</option>
+    </select><br><br>
 
-    <label for="tipo_categoria">Tipo</label>
-    <select id="tipo_categoria" name="tipo_categoria" required>
-        <option value="">-- Elige --</option>
-        <option value="ingreso" <?= ($old['tipo_categoria'] ?? '') === 'ingreso' ? 'selected' : '' ?>>Ingreso</option>
-        <option value="gasto"   <?= ($old['tipo_categoria'] ?? '') === 'gasto'   ? 'selected' : '' ?>>Gasto</option>
-    </select>
+    Descripcion:<br>
+    <input type="text" name="descripcion"><br><br>
 
-    <label for="descripcion">Descripción <small>(opcional)</small></label>
-    <input type="text" id="descripcion" name="descripcion" maxlength="255"
-           value="<?= e($old['descripcion'] ?? '') ?>">
-
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/categoria') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

@@ -10,46 +10,57 @@ class Empresa
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    // Lista todas las empresas. No recibe valores externos, por eso basta query().
     public function getAll()
     {
         $sql = "SELECT id_empresa, nombre_empresa, nit, direccion, telefono, correo, fecha_registro
-                FROM empresa
-                ORDER BY nombre_empresa";
+            FROM empresa
+            ORDER BY nombre_empresa";
 
         $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Devuelve UNA fila (array) o false si no existe.
-    public function getById($id_empresa)
-    {
-        $sql = "SELECT id_empresa, nombre_empresa, nit, direccion, telefono, correo, fecha_registro
-                FROM empresa
-                WHERE id_empresa = :id_empresa";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
-        return $consulta->fetch(PDO::FETCH_ASSOC);
+     public function getByid($id_empresa)
+    {
+        try {
+            $sql = "SELECT * FROM empresa WHERE id_empresa = :id_empresa";
+
+            $consulta = $this->connection->prepare($sql);
+
+             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_empresa", $id_empresa);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de empresa";
+        }
     }
 
-    // Inserta una empresa. Los campos opcionales vacíos se guardan como NULL.
-    public function create($datos)
+    public function create($nombre_empresa, $nit, $direccion, $telefono, $correo)
     {
-        $sql = "INSERT INTO empresa (nombre_empresa, nit, direccion, telefono, correo)
-                VALUES (:nombre_empresa, :nit, :direccion, :telefono, :correo)";
+        try {
+            $sql = "INSERT INTO empresa (nombre_empresa, nit, direccion, telefono, correo)
+                    VALUES (:nombre_empresa, :nit, :direccion, :telefono, :correo)";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":nombre_empresa", $datos['nombre_empresa']);
-        $consulta->bindValue(":nit", $datos['nit']);
-        $consulta->bindValue(":direccion", $datos['direccion'] !== '' ? $datos['direccion'] : null);
-        $consulta->bindValue(":telefono", $datos['telefono'] !== '' ? $datos['telefono'] : null);
-        $consulta->bindValue(":correo", $datos['correo'] !== '' ? $datos['correo'] : null);
-        $consulta->execute();
+            $consulta = $this->connection->prepare($sql);
 
-        return (int) $this->connection->lastInsertId();
+            $consulta->bindParam(":nombre_empresa", $nombre_empresa);
+            $consulta->bindParam(":nit", $nit);
+            $consulta->bindParam(":direccion", $direccion);
+            $consulta->bindParam(":telefono", $telefono);
+            $consulta->bindParam(":correo", $correo);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de empresa";
+        }
     }
 }

@@ -1,50 +1,56 @@
 <?php
 
-require_once __DIR__ . "/../../config/Database.php";
-
-class Rol
-{
+class Rol{
     private $connection;
 
     public function __construct()
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    // Los roles son globales (la tabla no tiene id_empresa), por eso no se filtra por empresa.
     public function getAll()
     {
-        $sql = "SELECT id_rol, nombre_rol, descripcion
-                FROM rol
-                ORDER BY id_rol";
+        $sql = "SELECT * FROM rol";
 
         $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getById($id_rol)
+    public function getByid($id_rol)
     {
-        $sql = "SELECT id_rol, nombre_rol, descripcion
-                FROM rol
-                WHERE id_rol = :id_rol";
+        try {
+            $sql = "SELECT * FROM rol WHERE id_rol = :id_rol";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_rol", $id_rol, PDO::PARAM_INT);
-        $consulta->execute();
-        return $consulta->fetch(PDO::FETCH_ASSOC);
+            $consulta = $this->connection->prepare($sql);
+
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_rol", $id_rol);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de rol";
+        }
     }
 
-    public function create($datos)
+    public function create($nombre_rol, $descripcion)
     {
-        $sql = "INSERT INTO rol (nombre_rol, descripcion)
-                VALUES (:nombre_rol, :descripcion)";
+        try {
+            $sql = "INSERT INTO rol (nombre_rol, descripcion) VALUES (:nombre_rol, :descripcion)";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":nombre_rol", $datos['nombre_rol']);
-        $consulta->bindValue(":descripcion", $datos['descripcion'] !== '' ? $datos['descripcion'] : null);
-        $consulta->execute();
+            $consulta = $this->connection->prepare($sql);
 
-        return (int) $this->connection->lastInsertId();
+            $consulta->bindParam(":nombre_rol", $nombre_rol);
+            $consulta->bindParam(":descripcion", $descripcion);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de rol";
+        }
     }
 }

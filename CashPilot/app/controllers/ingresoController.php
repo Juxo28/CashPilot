@@ -3,78 +3,61 @@
 require_once __DIR__ . "/../models/ingreso.php";
 require_once __DIR__ . "/../models/categoria.php";
 
-class IngresoController
-{
-    public function index()
-    {
-        try {
-            $ingresoModel = new Ingreso();
-            $ingresos = $ingresoModel->getAllByEmpresa(ID_EMPRESA_ACTUAL);
+class ingresoController {
 
-            require __DIR__ . "/../views/ingreso/index.php";
+    public function index(){
+        try {
+            $ingreso = new Ingreso();
+            $ingresos = $ingreso->getAll();
+
+            require_once __DIR__ . "/../views/ingreso/index.php";
         } catch (PDOException $e) {
-            mostrarError("los ingresos", $e);
+            echo "Hay un error en el controlador de ingreso";
         }
     }
 
-    public function crear()
-    {
-        $errores = [];
-        $old = ['fecha' => date('Y-m-d')];
-        $categorias = [];
-
+    public function crear(){
         try {
             $categoriaModel = new Categoria();
-            $categorias = $categoriaModel->getByTipo(ID_EMPRESA_ACTUAL, 'ingreso');
-        } catch (PDOException $e) {
-            $errores[] = mensajeBD($e);
-        }
+            $categorias = $categoriaModel->getAll();
 
-        require __DIR__ . "/../views/ingreso/crear.php";
+            require_once __DIR__ . "/../views/ingreso/crear.php";
+        } catch (PDOException $e) {
+            echo "Hay un error en el controlador de ingreso al mostrar el formulario";
+        }
     }
 
-    public function guardar()
-    {
-        $old = [
-            'id_categoria' => post('id_categoria'),
-            'monto'        => post('monto'),
-            'fecha'        => post('fecha'),
-            'descripcion'  => post('descripcion'),
-            'fuente'       => post('fuente'),
-        ];
-        $errores = [];
-        $categorias = [];
-
+    public function guardar(){
         try {
-            $categoriaModel = new Categoria();
-            $categorias = $categoriaModel->getByTipo(ID_EMPRESA_ACTUAL, 'ingreso');
-            $idsCategorias = array_map('strval', array_column($categorias, 'id_categoria'));
+            $id_empresa = 1;
+            $id_usuario = 1;
+            $id_categoria = $_POST['id_categoria'];
+            $monto = $_POST['monto'];
+            $fecha = $_POST['fecha'];
+            $descripcion = $_POST['descripcion'];
+            $fuente = $_POST['fuente'];
 
-            if (!in_array($old['id_categoria'], $idsCategorias, true)) {
-                $errores[] = "Elige una categoría de ingreso de la lista.";
-            }
-            if (!esMonto($old['monto']) || (float) $old['monto'] <= 0) {
-                $errores[] = "El monto debe ser un número mayor que cero, sin puntos de miles (ejemplo: 5000000).";
-            }
-            if (!fechaValida($old['fecha'])) {
-                $errores[] = "La fecha no es válida.";
-            }
-            if ($old['descripcion'] === '' || mb_strlen($old['descripcion']) > 255) {
-                $errores[] = "La descripción es obligatoria (máximo 255 caracteres).";
-            }
-            if (mb_strlen($old['fuente']) > 120) {
-                $errores[] = "La fuente no puede superar 120 caracteres.";
+            if ($id_categoria == "" || !is_numeric($monto) || $monto <= 0 || $fecha == "" || $descripcion == "") {
+                echo "Revisa los datos: categoria, monto (mayor que 0), fecha y descripcion son obligatorios";
+                $categoriaModel = new Categoria();
+                $categorias = $categoriaModel->getAll();
+                require_once __DIR__ . "/../views/ingreso/crear.php";
+                return;
             }
 
-            if (empty($errores)) {
-                $ingresoModel = new Ingreso();
-                $ingresoModel->create(ID_EMPRESA_ACTUAL, ID_USUARIO_ACTUAL, $old);
-                redirigir('/ingreso?guardado=1');
+            $ingreso = new Ingreso();
+            $resultado = $ingreso->create($id_empresa, $id_usuario, $id_categoria, $monto, $fecha, $descripcion, $fuente);
+
+            if ($resultado) {
+                header("Location: /ingreso");
+            } else {
+                echo "No se pudo guardar. Revisa los datos e intenta de nuevo.";
+                $categoriaModel = new Categoria();
+                $categorias = $categoriaModel->getAll();
+                require_once __DIR__ . "/../views/ingreso/crear.php";
             }
         } catch (PDOException $e) {
-            $errores[] = mensajeBD($e);
+            echo "Hay un error en el controlador de ingreso al guardar";
         }
-
-        require __DIR__ . "/../views/ingreso/crear.php";
     }
 }

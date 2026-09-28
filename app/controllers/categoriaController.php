@@ -2,57 +2,47 @@
 
 require_once __DIR__ . "/../models/categoria.php";
 
-class CategoriaController
-{
-    public function index()
-    {
+class categoriaController {
+
+    public function index(){
         try {
-            $categoriaModel = new Categoria();
-            $categorias = $categoriaModel->getAllByEmpresa(ID_EMPRESA_ACTUAL);
+            $categoria = new Categoria();
+            $categorias = $categoria->getAll();
 
-            require __DIR__ . "/../views/categoria/index.php";
+            require_once __DIR__ . "/../views/categoria/index.php";
         } catch (PDOException $e) {
-            mostrarError("las categorías", $e);
+            echo "Hay un error en el controlador de categoria";
         }
     }
 
-    public function crear()
-    {
-        $errores = [];
-        $old = [];
-        require __DIR__ . "/../views/categoria/crear.php";
+    public function crear(){
+        require_once __DIR__ . "/../views/categoria/crear.php";
     }
 
-    public function guardar()
-    {
-        $old = [
-            'nombre_categoria' => post('nombre_categoria'),
-            'tipo_categoria'   => post('tipo_categoria'),
-            'descripcion'      => post('descripcion'),
-        ];
-        $errores = [];
+    public function guardar(){
+        try {
+            $id_empresa = 1; // por ahora fijo, hasta que exista el login
+            $nombre_categoria = $_POST['nombre_categoria'];
+            $tipo_categoria = $_POST['tipo_categoria'];
+            $descripcion = $_POST['descripcion'];
 
-        if ($old['nombre_categoria'] === '' || mb_strlen($old['nombre_categoria']) > 60) {
-            $errores[] = "El nombre es obligatorio (máximo 60 caracteres).";
-        }
-        // in_array con true (estricto): el tipo debe ser EXACTAMENTE uno de los dos valores permitidos.
-        if (!in_array($old['tipo_categoria'], ['ingreso', 'gasto'], true)) {
-            $errores[] = "Elige un tipo válido: ingreso o gasto.";
-        }
-        if (mb_strlen($old['descripcion']) > 255) {
-            $errores[] = "La descripción no puede superar 255 caracteres.";
-        }
-
-        if (empty($errores)) {
-            try {
-                $categoriaModel = new Categoria();
-                $categoriaModel->create(ID_EMPRESA_ACTUAL, $old);
-                redirigir('/categoria?guardado=1');
-            } catch (PDOException $e) {
-                $errores[] = mensajeBD($e);
+            if ($nombre_categoria == "" || ($tipo_categoria != "ingreso" && $tipo_categoria != "gasto")) {
+                echo "El nombre es obligatorio y el tipo debe ser ingreso o gasto";
+                require_once __DIR__ . "/../views/categoria/crear.php";
+                return;
             }
-        }
 
-        require __DIR__ . "/../views/categoria/crear.php";
+            $categoria = new Categoria();
+            $resultado = $categoria->create($id_empresa, $nombre_categoria, $tipo_categoria, $descripcion);
+
+            if ($resultado) {
+                header("Location: /categoria");
+            } else {
+                echo "No se pudo guardar. Revisa los datos e intenta de nuevo.";
+                require_once __DIR__ . "/../views/categoria/crear.php";
+            }
+        } catch (PDOException $e) {
+            echo "Hay un error en el controlador de categoria al guardar";
+        }
     }
 }

@@ -1,20 +1,23 @@
-<h1>Personas</h1>
+<h1>Listado de personas</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/persona/crear') ?>">Nueva persona</a></p>
+<a href="/persona/crear">Nueva persona</a>
 
-<?php if (!empty($personas)) : ?>
-    <table>
-        <tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Teléfono</th><th>Correo</th></tr>
-        <?php foreach ($personas as $persona) : ?>
-            <tr>
-                <td><?= e($persona['id_persona']) ?></td>
-                <td><?= e($persona['nombre']) ?></td>
-                <td><?= e($persona['apellido']) ?></td>
-                <td><?= e($persona['telefono']) ?></td>
-                <td><?= e($persona['correo']) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else : ?>
-    <p>No hay personas para mostrar.</p>
-<?php endif; ?>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Telefono</th>
+        <th>Correo</th>
+    </tr>
+
+    <?php foreach ($personas as $persona): ?>
+        <tr>
+            <td><?= htmlspecialchars($persona['id_persona']) ?></td>
+            <td><?= htmlspecialchars($persona['nombre']) ?></td>
+            <td><?= htmlspecialchars($persona['apellido']) ?></td>
+            <td><?= htmlspecialchars($persona['telefono']) ?></td>
+            <td><?= htmlspecialchars($persona['correo']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

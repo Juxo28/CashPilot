@@ -1,28 +1,20 @@
 <h1>Nueva empresa</h1>
 
-<?php require __DIR__ . "/../partials/errores.php"; ?>
+<form method="POST" action="/empresa">
+    Nombre de la empresa:<br>
+    <input type="text" name="nombre_empresa"><br><br>
 
-<form method="post" action="<?= url('/empresa') ?>">
-    <label for="nombre_empresa">Nombre de la empresa</label>
-    <input type="text" id="nombre_empresa" name="nombre_empresa" maxlength="120" required
-           value="<?= e($old['nombre_empresa'] ?? '') ?>">
+    NIT:<br>
+    <input type="text" name="nit"><br><br>
 
-    <label for="nit">NIT</label>
-    <input type="text" id="nit" name="nit" maxlength="20" required placeholder="900123456-7"
-           value="<?= e($old['nit'] ?? '') ?>">
+    Direccion:<br>
+    <input type="text" name="direccion"><br><br>
 
-    <label for="direccion">Dirección <small>(opcional)</small></label>
-    <input type="text" id="direccion" name="direccion" maxlength="200"
-           value="<?= e($old['direccion'] ?? '') ?>">
+    Telefono:<br>
+    <input type="text" name="telefono"><br><br>
 
-    <label for="telefono">Teléfono <small>(opcional)</small></label>
-    <input type="text" id="telefono" name="telefono" maxlength="20"
-           value="<?= e($old['telefono'] ?? '') ?>">
+    Correo:<br>
+    <input type="text" name="correo"><br><br>
 
-    <label for="correo">Correo <small>(opcional)</small></label>
-    <input type="email" id="correo" name="correo" maxlength="120"
-           value="<?= e($old['correo'] ?? '') ?>">
-
-    <button class="boton" type="submit">Guardar</button>
-    <a class="boton secundario" href="<?= url('/empresa') ?>">Cancelar</a>
+    <button type="submit">Guardar</button>
 </form>

@@ -1,71 +1,60 @@
 <?php
 
-require_once __DIR__ . "/../../config/Database.php";
-
-class Categoria
-{
+class Categoria{
     private $connection;
 
     public function __construct()
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getAllByEmpresa($id_empresa)
+    public function getAll()
     {
-        $sql = "SELECT id_categoria, nombre_categoria, tipo_categoria, descripcion
-                FROM categoria
-                WHERE id_empresa = :id_empresa
-                ORDER BY tipo_categoria, nombre_categoria";
+        $sql = "SELECT * FROM categoria";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
+        $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Categorías de un tipo ('ingreso' o 'gasto'). Sirve para llenar los <select> de los formularios.
-    public function getByTipo($id_empresa, $tipo)
+     public function getByid($id_categoria)
     {
-        $sql = "SELECT id_categoria, nombre_categoria
-                FROM categoria
-                WHERE id_empresa = :id_empresa AND tipo_categoria = :tipo
-                ORDER BY nombre_categoria";
+        try {
+            $sql = "SELECT * FROM categoria WHERE id_categoria = :id_categoria";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->bindValue(":tipo", $tipo);
-        $consulta->execute();
-        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+            $consulta = $this->connection->prepare($sql);
+
+             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_categoria", $id_categoria);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de Categoria";
+        }
     }
 
-    // Filtra también por empresa: nadie ve categorías ajenas cambiando el id.
-    public function getById($id_categoria, $id_empresa)
+
+    public function create($id_empresa, $nombre_categoria, $tipo_categoria, $descripcion)
     {
-        $sql = "SELECT id_categoria, nombre_categoria, tipo_categoria, descripcion
-                FROM categoria
-                WHERE id_categoria = :id_categoria AND id_empresa = :id_empresa";
+        try {
+            $sql = "INSERT INTO categoria (id_empresa, nombre_categoria, tipo_categoria, descripcion)
+                    VALUES (:id_empresa, :nombre_categoria, :tipo_categoria, :descripcion)";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_categoria", $id_categoria, PDO::PARAM_INT);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
-        return $consulta->fetch(PDO::FETCH_ASSOC);
-    }
+            $consulta = $this->connection->prepare($sql);
 
-    public function create($id_empresa, $datos)
-    {
-        $sql = "INSERT INTO categoria (id_empresa, nombre_categoria, tipo_categoria, descripcion)
-                VALUES (:id_empresa, :nombre_categoria, :tipo_categoria, :descripcion)";
+            $consulta->bindParam(":id_empresa", $id_empresa);
+            $consulta->bindParam(":nombre_categoria", $nombre_categoria);
+            $consulta->bindParam(":tipo_categoria", $tipo_categoria);
+            $consulta->bindParam(":descripcion", $descripcion);
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->bindValue(":nombre_categoria", $datos['nombre_categoria']);
-        $consulta->bindValue(":tipo_categoria", $datos['tipo_categoria']);
-        $consulta->bindValue(":descripcion", $datos['descripcion'] !== '' ? $datos['descripcion'] : null);
-        $consulta->execute();
-
-        return (int) $this->connection->lastInsertId();
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de Categoria";
+        }
     }
 }

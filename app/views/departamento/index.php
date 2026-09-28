@@ -1,19 +1,21 @@
-<h1>Departamentos</h1>
+<h1>Listado de departamentos</h1>
 
-<p class="acciones"><a class="boton" href="<?= url('/departamento/crear') ?>">Nuevo departamento</a></p>
+<a href="/departamento/crear">Nuevo departamento</a>
 
-<?php if (!empty($departamentos)) : ?>
-    <table>
-        <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th class="num">Presupuesto</th></tr>
-        <?php foreach ($departamentos as $departamento) : ?>
-            <tr>
-                <td><?= e($departamento['id_departamento']) ?></td>
-                <td><?= e($departamento['nombre_departamento']) ?></td>
-                <td><?= e($departamento['descripcion']) ?></td>
-                <td class="num"><?= e(dinero($departamento['presupuesto'])) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </table>
-<?php else : ?>
-    <p>No hay departamentos para mostrar.</p>
-<?php endif; ?>
+<table border="1" cellpadding="6">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Presupuesto</th>
+    </tr>
+
+    <?php foreach ($departamentos as $departamento): ?>
+        <tr>
+            <td><?= htmlspecialchars($departamento['id_departamento']) ?></td>
+            <td><?= htmlspecialchars($departamento['nombre_departamento']) ?></td>
+            <td><?= htmlspecialchars($departamento['descripcion']) ?></td>
+            <td><?= htmlspecialchars($departamento['presupuesto']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

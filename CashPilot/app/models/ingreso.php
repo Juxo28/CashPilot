@@ -1,53 +1,67 @@
 <?php
 
-require_once __DIR__ . "/../../config/Database.php";
-
-class Ingreso
-{
+class Ingreso{
     private $connection;
 
     public function __construct()
     {
         $database = new Database();
         $this->connection = $database->connect();
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getAllByEmpresa($id_empresa)
+    public function getAll()
     {
-        $sql = "SELECT i.id_ingreso,
-                       i.fecha,
-                       i.descripcion,
-                       i.monto,
-                       i.fuente,
-                       c.nombre_categoria AS categoria,
-                       u.usuario          AS registrado_por
-                FROM ingreso i
-                INNER JOIN categoria c ON i.id_categoria = c.id_categoria
-                INNER JOIN usuario   u ON i.id_usuario   = u.id_usuario
-                WHERE i.id_empresa = :id_empresa
-                ORDER BY i.fecha DESC, i.id_ingreso DESC";
+        $sql = "SELECT ingreso.id_ingreso, ingreso.fecha, ingreso.descripcion, ingreso.monto, ingreso.fuente,
+                       categoria.nombre_categoria,
+                       usuario.usuario
+                FROM ingreso
+                INNER JOIN categoria ON ingreso.id_categoria = categoria.id_categoria
+                INNER JOIN usuario ON ingreso.id_usuario = usuario.id_usuario";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->execute();
+        $consulta = $this->connection->query($sql);
+        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($id_empresa, $id_usuario, $datos)
+    public function getByid($id_ingreso)
     {
-        $sql = "INSERT INTO ingreso (id_empresa, id_categoria, id_usuario, monto, fecha, descripcion, fuente)
-                VALUES (:id_empresa, :id_categoria, :id_usuario, :monto, :fecha, :descripcion, :fuente)";
+        try {
+            $sql = "SELECT * FROM ingreso WHERE id_ingreso = :id_ingreso";
 
-        $consulta = $this->connection->prepare($sql);
-        $consulta->bindValue(":id_empresa", $id_empresa, PDO::PARAM_INT);
-        $consulta->bindValue(":id_categoria", $datos['id_categoria'], PDO::PARAM_INT);
-        $consulta->bindValue(":id_usuario", $id_usuario, PDO::PARAM_INT);
-        $consulta->bindValue(":monto", $datos['monto']);
-        $consulta->bindValue(":fecha", $datos['fecha']);
-        $consulta->bindValue(":descripcion", $datos['descripcion']);
-        $consulta->bindValue(":fuente", $datos['fuente'] !== '' ? $datos['fuente'] : null);
-        $consulta->execute();
+            $consulta = $this->connection->prepare($sql);
 
-        return (int) $this->connection->lastInsertId();
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $consulta->bindParam(":id_ingreso", $id_ingreso);
+
+            $consulta->execute();
+
+            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo getByid de ingreso";
+        }
+    }
+
+    public function create($id_empresa, $id_usuario, $id_categoria, $monto, $fecha, $descripcion, $fuente)
+    {
+        try {
+            $sql = "INSERT INTO ingreso (id_empresa, id_categoria, id_usuario, monto, fecha, descripcion, fuente)
+                    VALUES (:id_empresa, :id_categoria, :id_usuario, :monto, :fecha, :descripcion, :fuente)";
+
+            $consulta = $this->connection->prepare($sql);
+
+            $consulta->bindParam(":id_empresa", $id_empresa);
+            $consulta->bindParam(":id_categoria", $id_categoria);
+            $consulta->bindParam(":id_usuario", $id_usuario);
+            $consulta->bindParam(":monto", $monto);
+            $consulta->bindParam(":fecha", $fecha);
+            $consulta->bindParam(":descripcion", $descripcion);
+            $consulta->bindParam(":fuente", $fuente);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo create de ingreso";
+        }
     }
 }
