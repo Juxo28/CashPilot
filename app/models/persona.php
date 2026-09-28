@@ -2,8 +2,6 @@
 
 require_once __DIR__ . "/../../config/Database.php";
 
-// Se llama PersonaModel (y no Persona) porque en class/Persona.php ya existe una clase Persona.
-// PHP no permite dos clases con el mismo nombre en la misma ejecución.
 class PersonaModel
 {
     private $connection;
