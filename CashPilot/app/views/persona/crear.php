@@ -1,6 +1,6 @@
 <h1>Nueva persona</h1>
 
-<form method="POST" action="/persona">
+<form method="GET" action="/persona/guardar">
     Nombre:<br>
     <input type="text" name="nombre"><br><br>
 

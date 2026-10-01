@@ -35,13 +35,13 @@ class gastoController {
         try {
             $id_empresa = 1;
             $id_usuario = 1; // por ahora fijo, hasta que exista el login
-            $id_departamento = $_POST['id_departamento'];
-            $id_categoria = $_POST['id_categoria'];
-            $monto = $_POST['monto'];
-            $fecha = $_POST['fecha'];
-            $descripcion = $_POST['descripcion'];
-            $metodo_pago = $_POST['metodo_pago'];
-            $comprobante = $_POST['comprobante'];
+            $id_departamento = $_GET['id_departamento'];
+            $id_categoria = $_GET['id_categoria'];
+            $monto = $_GET['monto'];
+            $fecha = $_GET['fecha'];
+            $descripcion = $_GET['descripcion'];
+            $metodo_pago = $_GET['metodo_pago'];
+            $comprobante = $_GET['comprobante'];
 
             if ($id_departamento == "" || $id_categoria == "" || !is_numeric($monto) || $monto <= 0 || $fecha == "" || $descripcion == "") {
                 echo "Revisa los datos: departamento, categoria, monto (mayor que 0), fecha y descripcion son obligatorios";

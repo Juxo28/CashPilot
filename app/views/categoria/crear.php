@@ -1,17 +1,17 @@
 <h1>Nueva categoria</h1>
 
-<form method="POST" action="/categoria">
-    Nombre:<br>
-    <input type="text" name="nombre_categoria"><br><br>
+<form method="POST" action="/categoria/guardar">
+    <label for="nombre_categoria">Nombre:</label><br>
+    <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
 
-    Tipo:<br>
-    <select name="tipo_categoria">
+    <label for="tipo_categoria">Tipo:</label><br>
+    <select id="tipo_categoria" name="tipo_categoria">
         <option value="ingreso">Ingreso</option>
         <option value="gasto">Gasto</option>
     </select><br><br>
 
-    Descripcion:<br>
-    <input type="text" name="descripcion"><br><br>
+    <label for="descripcion">Descripcion:</label><br>
+    <input type="text" id="descripcion" name="descripcion"><br><br>
 
     <button type="submit">Guardar</button>
 </form>

@@ -39,22 +39,39 @@ class Departamento{
     }
 
 
-    public function create($id_empresa, $nombre_departamento, $descripcion, $presupuesto)
+    public function crear($nombre_departamento, $descripcion, $presupuesto)
     {
         try {
-            $sql = "INSERT INTO departamento (id_empresa, nombre_departamento, descripcion, presupuesto)
-                    VALUES (:id_empresa, :nombre_departamento, :descripcion, :presupuesto)";
+            $sql = "INSERT INTO departamento (nombre_departamento, descripcion, presupuesto)
+                    VALUES (, :nombre_departamento, :descripcion, :presupuesto)";
 
             $consulta = $this->connection->prepare($sql);
 
-            $consulta->bindParam(":id_empresa", $id_empresa);
             $consulta->bindParam(":nombre_departamento", $nombre_departamento);
             $consulta->bindParam(":descripcion", $descripcion);
             $consulta->bindParam(":presupuesto", $presupuesto);
 
             return $consulta->execute();
         } catch (PDOException $e) {
-            echo "Hay un error en el metodo create de departamento";
+            echo "Hay un error en el metodo crear de departamento";
         }
     }
+
+    public function guardar($id_empresa, $nombre_departamento, $descripcion, $presupuesto){
+    try {
+        $sql = "INSERT INTO departamento (id_empresa, nombre_departamento, descripcion, presupuesto)
+                VALUES (:id_empresa, :nombre_departamento, :descripcion, :presupuesto)";
+
+        $consulta = $this->connection->prepare($sql);
+
+        $consulta->bindParam(":id_empresa", $id_empresa);
+        $consulta->bindParam(":nombre_departamento", $nombre_departamento);
+        $consulta->bindParam(":descripcion", $descripcion);
+        $consulta->bindParam(":presupuesto", $presupuesto);
+
+        return $consulta->execute();
+    } catch (PDOException $e) {
+        echo "Hay un error en el metodo guardar de departamento";
+    }
+}
 }

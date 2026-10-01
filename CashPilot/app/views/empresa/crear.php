@@ -1,6 +1,6 @@
 <h1>Nueva empresa</h1>
 
-<form method="POST" action="/empresa">
+<form method="GET" action="/empresa/guardar">
     Nombre de la empresa:<br>
     <input type="text" name="nombre_empresa"><br><br>
 

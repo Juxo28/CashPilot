@@ -31,11 +31,11 @@ class ingresoController {
         try {
             $id_empresa = 1;
             $id_usuario = 1;
-            $id_categoria = $_POST['id_categoria'];
-            $monto = $_POST['monto'];
-            $fecha = $_POST['fecha'];
-            $descripcion = $_POST['descripcion'];
-            $fuente = $_POST['fuente'];
+            $id_categoria = $_GET['id_categoria'];
+            $monto = $_GET['monto'];
+            $fecha = $_GET['fecha'];
+            $descripcion = $_GET['descripcion'];
+            $fuente = $_GET['fuente'];
 
             if ($id_categoria == "" || !is_numeric($monto) || $monto <= 0 || $fecha == "" || $descripcion == "") {
                 echo "Revisa los datos: categoria, monto (mayor que 0), fecha y descripcion son obligatorios";

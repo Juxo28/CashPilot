@@ -1,6 +1,6 @@
 <h1>Nuevo departamento</h1>
 
-<form method="POST" action="/departamento">
+<form method="GET" action="/departamento/guardar">
     Nombre:<br>
     <input type="text" name="nombre_departamento"><br><br>
 

@@ -22,9 +22,9 @@ class departamentoController {
     public function guardar(){
         try {
             $id_empresa = 1;
-            $nombre_departamento = $_POST['nombre_departamento'];
-            $descripcion = $_POST['descripcion'];
-            $presupuesto = $_POST['presupuesto'];
+            $nombre_departamento = $_GET['nombre_departamento'];
+            $descripcion = $_GET['descripcion'];
+            $presupuesto = $_GET['presupuesto'];
 
             if ($nombre_departamento == "" || !is_numeric($presupuesto)) {
                 echo "El nombre es obligatorio y el presupuesto debe ser un numero";

@@ -21,10 +21,10 @@ class personaController {
 
     public function guardar(){
         try {
-            $nombre = $_POST['nombre'];
-            $apellido = $_POST['apellido'];
-            $telefono = $_POST['telefono'];
-            $correo = $_POST['correo'];
+            $nombre = $_GET['nombre'];
+            $apellido = $_GET['apellido'];
+            $telefono = $_GET['telefono'];
+            $correo = $_GET['correo'];
 
             if ($nombre == "" || $apellido == "") {
                 echo "El nombre y el apellido son obligatorios";

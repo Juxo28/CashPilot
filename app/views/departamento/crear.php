@@ -1,13 +1,13 @@
 <h1>Nuevo departamento</h1>
 
 <form method="POST" action="/departamento">
-    Nombre:<br>
+    <label for="name">Nombre</label>
     <input type="text" name="nombre_departamento"><br><br>
 
-    Descripcion:<br>
+    <label for="descripcion">Descripcion</label><br>
     <input type="text" name="descripcion"><br><br>
 
-    Presupuesto:<br>
+    <label for="presupuesto">Presupuesto</label><br>
     <input type="text" name="presupuesto"><br><br>
 
     <button type="submit">Guardar</button>

@@ -1,20 +1,18 @@
-<h1>Nueva empresa</h1>
+<form action="/empresa" method="POST">
+    <label for="nombre_empresa">Nombre de la Empresa:</label><br>
+    <input type="text" id="nombre_empresa" name="nombre_empresa"><br><br>
 
-<form method="POST" action="/empresa">
-    Nombre de la empresa:<br>
-    <input type="text" name="nombre_empresa"><br><br>
+    <label for="nit">Nit:</label><br>
+    <input type="text" id="nit" name="nit"><br><br>
 
-    NIT:<br>
-    <input type="text" name="nit"><br><br>
+    <label for="direccion">Direccion:</label><br>
+    <input type="text" id="direccion" name="direccion"><br><br>
 
-    Direccion:<br>
-    <input type="text" name="direccion"><br><br>
+    <label for="telefono">Telefono:</label><br>
+    <input type="text" id="telefono" name="telefono"><br><br>
 
-    Telefono:<br>
-    <input type="text" name="telefono"><br><br>
-
-    Correo:<br>
-    <input type="text" name="correo"><br><br>
+    <label for="correo">Correo:</label><br>
+    <input type="text" id="correo" name="correo"><br><br>
 
     <button type="submit">Guardar</button>
 </form>

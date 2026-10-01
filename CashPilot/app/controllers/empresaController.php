@@ -21,11 +21,11 @@ class empresaController {
 
     public function guardar(){
         try {
-            $nombre_empresa = $_POST['nombre_empresa'];
-            $nit = $_POST['nit'];
-            $direccion = $_POST['direccion'];
-            $telefono = $_POST['telefono'];
-            $correo = $_POST['correo'];
+            $nombre_empresa = $_GET['nombre_empresa'];
+            $nit = $_GET['nit'];
+            $direccion = $_GET['direccion'];
+            $telefono = $_GET['telefono'];
+            $correo = $_GET['correo'];
 
             if ($nombre_empresa == "" || $nit == "") {
                 echo "El nombre y el NIT son obligatorios";

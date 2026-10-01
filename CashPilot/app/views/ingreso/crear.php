@@ -1,6 +1,6 @@
 <h1>Nuevo ingreso</h1>
 
-<form method="POST" action="/ingreso">
+<form method="GET" action="/ingreso/guardar">
     Categoria:<br>
     <select name="id_categoria">
         <?php foreach ($categorias as $categoria): ?>

@@ -22,9 +22,9 @@ class categoriaController {
     public function guardar(){
         try {
             $id_empresa = 1; // por ahora fijo, hasta que exista el login
-            $nombre_categoria = $_POST['nombre_categoria'];
-            $tipo_categoria = $_POST['tipo_categoria'];
-            $descripcion = $_POST['descripcion'];
+            $nombre_categoria = $_GET['nombre_categoria'];
+            $tipo_categoria = $_GET['tipo_categoria'];
+            $descripcion = $_GET['descripcion'];
 
             if ($nombre_categoria == "" || ($tipo_categoria != "ingreso" && $tipo_categoria != "gasto")) {
                 echo "El nombre es obligatorio y el tipo debe ser ingreso o gasto";

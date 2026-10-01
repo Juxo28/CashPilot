@@ -19,30 +19,22 @@ class categoriaController {
         require_once __DIR__ . "/../views/categoria/crear.php";
     }
 
-    public function guardar(){
-        try {
-            $id_empresa = 1; // por ahora fijo, hasta que exista el login
-            $nombre_categoria = $_POST['nombre_categoria'];
-            $tipo_categoria = $_POST['tipo_categoria'];
-            $descripcion = $_POST['descripcion'];
+    public function guardar()
+{
+    $id_empresa = 1; // temporal, hasta que exista el login
 
-            if ($nombre_categoria == "" || ($tipo_categoria != "ingreso" && $tipo_categoria != "gasto")) {
-                echo "El nombre es obligatorio y el tipo debe ser ingreso o gasto";
-                require_once __DIR__ . "/../views/categoria/crear.php";
-                return;
-            }
+    $nombre_categoria = $_POST['nombre_categoria'];
+    $tipo_categoria = $_POST['tipo_categoria'];
+    $descripcion = $_POST['descripcion'];
 
-            $categoria = new Categoria();
-            $resultado = $categoria->create($id_empresa, $nombre_categoria, $tipo_categoria, $descripcion);
+    $categoria = new Categoria();
+    $resultado = $categoria->create($id_empresa, $nombre_categoria, $tipo_categoria, $descripcion);
 
-            if ($resultado) {
-                header("Location: /categoria");
-            } else {
-                echo "No se pudo guardar. Revisa los datos e intenta de nuevo.";
-                require_once __DIR__ . "/../views/categoria/crear.php";
-            }
-        } catch (PDOException $e) {
-            echo "Hay un error en el controlador de categoria al guardar";
-        }
+    if ($resultado) {
+        echo "Categoria guardada correctamente";
+        $this->index();
+    } else {
+        echo "No se pudo guardar la informacion";
     }
+}
 }

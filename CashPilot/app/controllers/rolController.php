@@ -21,8 +21,8 @@ class rolController {
 
     public function guardar(){
         try {
-            $nombre_rol = $_POST['nombre_rol'];
-            $descripcion = $_POST['descripcion'];
+            $nombre_rol = $_GET['nombre_rol'];
+            $descripcion = $_GET['descripcion'];
 
             if ($nombre_rol == "") {
                 echo "El nombre del rol es obligatorio";

@@ -1,6 +1,6 @@
 <h1>Nuevo gasto</h1>
 
-<form method="POST" action="/gasto">
+<form method="GET" action="/gasto/guardar">
     Departamento:<br>
     <select name="id_departamento">
         <?php foreach ($departamentos as $departamento): ?>

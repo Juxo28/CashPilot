@@ -1,6 +1,6 @@
 <h1>Nueva categoria</h1>
 
-<form method="POST" action="/categoria">
+<form method="GET" action="/categoria/guardar">
     Nombre:<br>
     <input type="text" name="nombre_categoria"><br><br>
 

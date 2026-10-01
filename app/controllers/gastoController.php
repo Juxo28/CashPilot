@@ -30,44 +30,4 @@ class gastoController {
             echo "Hay un error en el controlador de gasto al mostrar el formulario";
         }
     }
-
-    public function guardar(){
-        try {
-            $id_empresa = 1;
-            $id_usuario = 1; // por ahora fijo, hasta que exista el login
-            $id_departamento = $_POST['id_departamento'];
-            $id_categoria = $_POST['id_categoria'];
-            $monto = $_POST['monto'];
-            $fecha = $_POST['fecha'];
-            $descripcion = $_POST['descripcion'];
-            $metodo_pago = $_POST['metodo_pago'];
-            $comprobante = $_POST['comprobante'];
-
-            if ($id_departamento == "" || $id_categoria == "" || !is_numeric($monto) || $monto <= 0 || $fecha == "" || $descripcion == "") {
-                echo "Revisa los datos: departamento, categoria, monto (mayor que 0), fecha y descripcion son obligatorios";
-                $categoriaModel = new Categoria();
-                $departamentoModel = new Departamento();
-                $categorias = $categoriaModel->getAll();
-                $departamentos = $departamentoModel->getAll();
-                require_once __DIR__ . "/../views/gasto/crear.php";
-                return;
-            }
-
-            $gasto = new Gasto();
-            $resultado = $gasto->create($id_empresa, $id_usuario, $id_departamento, $id_categoria, $monto, $fecha, $descripcion, $metodo_pago, $comprobante);
-
-            if ($resultado) {
-                header("Location: /gasto");
-            } else {
-                echo "No se pudo guardar. Revisa los datos e intenta de nuevo.";
-                $categoriaModel = new Categoria();
-                $departamentoModel = new Departamento();
-                $categorias = $categoriaModel->getAll();
-                $departamentos = $departamentoModel->getAll();
-                require_once __DIR__ . "/../views/gasto/crear.php";
-            }
-        } catch (PDOException $e) {
-            echo "Hay un error en el controlador de gasto al guardar";
-        }
-    }
 }

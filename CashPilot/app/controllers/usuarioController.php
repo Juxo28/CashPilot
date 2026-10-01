@@ -34,10 +34,10 @@ class usuarioController {
     public function guardar(){
         try {
             $id_empresa = 1;
-            $id_persona = $_POST['id_persona'];
-            $id_rol = $_POST['id_rol'];
-            $usuario = $_POST['usuario'];
-            $password = $_POST['password'];
+            $id_persona = $_GET['id_persona'];
+            $id_rol = $_GET['id_rol'];
+            $usuario = $_GET['usuario'];
+            $password = $_GET['password'];
 
             if ($id_persona == "" || $id_rol == "" || $usuario == "" || strlen($password) < 8) {
                 echo "Todos los campos son obligatorios y la contraseña debe tener al menos 8 caracteres";

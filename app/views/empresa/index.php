@@ -1,10 +1,9 @@
 <h1>Listado de empresas</h1>
 
-<a href="/empresa/crear">Nueva empresa</a>
+<a href="empresa/crear">Crear nueva empresa </a>
 
 <table border="1" cellpadding="6">
     <tr>
-        <th>ID</th>
         <th>Nombre_Empresa</th>
         <th>NIT</th>
         <th>Direccion</th>
@@ -15,13 +14,12 @@
 
     <?php foreach ($empresas as $empresa): ?>
         <tr>
-            <td><?= htmlspecialchars($empresa['id_empresa']) ?></td>
-            <td><?= htmlspecialchars($empresa['nombre_empresa']) ?></td>
-            <td><?= htmlspecialchars($empresa['nit']) ?></td>
-            <td><?= htmlspecialchars($empresa['direccion']) ?></td>
-            <td><?= htmlspecialchars($empresa['telefono']) ?></td>
-            <td><?= htmlspecialchars($empresa['correo']) ?></td>
-            <td><?= htmlspecialchars($empresa['fecha_registro']) ?></td>
+            <td><?= $empresa['nombre_empresa'] ?></td>
+            <td><?= $empresa['nit'] ?></td>
+            <td><?= $empresa['direccion'] ?></td>
+            <td><?= $empresa['telefono'] ?></td>
+            <td><?= $empresa['correo'] ?></td>
+            <td><?= $empresa['fecha_registro'] ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

@@ -35,7 +35,7 @@ if ($method === "GET" && $uri === "/empresa") {
 } if ($method === "GET" && $uri === "/empresa/crear") {
     $controller = new empresaController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/empresa") {
+} if ($method === "GET" && $uri === "/empresa/guardar") {
     $controller = new empresaController();
     $controller->guardar();
 }
@@ -46,7 +46,7 @@ if ($method === "GET" && $uri === "/departamento") {
 } if ($method === "GET" && $uri === "/departamento/crear") {
     $controller = new departamentoController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/departamento") {
+} if ($method === "GET" && $uri === "/departamento/guardar") {
     $controller = new departamentoController();
     $controller->guardar();
 }
@@ -57,7 +57,7 @@ if ($method === "GET" && $uri === "/categoria") {
 } if ($method === "GET" && $uri === "/categoria/crear") {
     $controller = new categoriaController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/categoria") {
+} if ($method === "GET" && $uri === "/categoria/guardar") {
     $controller = new categoriaController();
     $controller->guardar();
 }
@@ -68,7 +68,7 @@ if ($method === "GET" && $uri === "/rol") {
 } if ($method === "GET" && $uri === "/rol/crear") {
     $controller = new rolController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/rol") {
+} if ($method === "GET" && $uri === "/rol/guardar") {
     $controller = new rolController();
     $controller->guardar();
 }
@@ -79,7 +79,7 @@ if ($method === "GET" && $uri === "/persona") {
 } if ($method === "GET" && $uri === "/persona/crear") {
     $controller = new personaController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/persona") {
+} if ($method === "GET" && $uri === "/persona/guardar") {
     $controller = new personaController();
     $controller->guardar();
 }
@@ -90,7 +90,7 @@ if ($method === "GET" && $uri === "/usuario") {
 } if ($method === "GET" && $uri === "/usuario/crear") {
     $controller = new usuarioController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/usuario") {
+} if ($method === "GET" && $uri === "/usuario/guardar") {
     $controller = new usuarioController();
     $controller->guardar();
 }
@@ -101,7 +101,7 @@ if ($method === "GET" && $uri === "/gasto") {
 } if ($method === "GET" && $uri === "/gasto/crear") {
     $controller = new gastoController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/gasto") {
+} if ($method === "GET" && $uri === "/gasto/guardar") {
     $controller = new gastoController();
     $controller->guardar();
 }
@@ -112,7 +112,7 @@ if ($method === "GET" && $uri === "/ingreso") {
 } if ($method === "GET" && $uri === "/ingreso/crear") {
     $controller = new ingresoController();
     $controller->crear();
-} if ($method === "POST" && $uri === "/ingreso") {
+} if ($method === "GET" && $uri === "/ingreso/guardar") {
     $controller = new ingresoController();
     $controller->guardar();
 }

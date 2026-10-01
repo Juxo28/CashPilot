@@ -44,7 +44,7 @@ class Empresa
         }
     }
 
-    public function create($nombre_empresa, $nit, $direccion, $telefono, $correo)
+    public function crear($nombre_empresa, $nit, $direccion, $telefono, $correo)
     {
         try {
             $sql = "INSERT INTO empresa (nombre_empresa, nit, direccion, telefono, correo)
@@ -63,4 +63,25 @@ class Empresa
             echo "Hay un error en el metodo create de empresa";
         }
     }
+    public function guardar($nombre_empresa,$nit,$direccion,$telefono,$correo){
+
+             try {
+            $sql = "INSERT INTO empresa (nombre_empresa, nit, direccion, telefono, correo)
+                    VALUES (:nombre_empresa, :nit, :direccion, :telefono, :correo)";
+
+        $consulta = $this->connection->prepare($sql);
+
+            $consulta->bindParam(":nombre_empresa", $nombre_empresa);
+            $consulta->bindParam(":nit", $nit);
+            $consulta->bindParam(":direccion", $direccion);
+            $consulta->bindParam(":telefono", $telefono);
+            $consulta->bindParam(":correo", $correo);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo guardar de empresa";
+        }
+
+    }
+   
 }
