@@ -1,0 +1,4 @@
+# Bloquea el archivo .env (contraseñas de la base de datos y llaves) desde el navegador.
+<FilesMatch "^\.env">
+    Require all denied
+</FilesMatch>
