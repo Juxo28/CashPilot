@@ -8,6 +8,7 @@ require_once __DIR__ . "/../app/controllers/usuarioController.php";
 require_once __DIR__ . "/../app/controllers/gastoController.php";
 require_once __DIR__ . "/../app/controllers/ingresoController.php";
 
+
 ?>
 
 <a href="/empresa">Empresa</a> |
@@ -24,8 +25,13 @@ require_once __DIR__ . "/../app/controllers/ingresoController.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
+$ruta = parse_url($uri,PHP_URL_PATH);
 
 
+if ($ruta === "/empresa/editar" && $method === "GET") {
+    $controller = new empresaController();
+    $controller->editar();
+}
 if ($method === "GET" && $uri === "/empresa") {
     $controller = new empresaController();
     $controller->index();
@@ -35,6 +41,12 @@ if ($method === "GET" && $uri === "/empresa") {
 } if ($method === "POST" && $uri === "/empresa") {
     $controller = new empresaController();
     $controller->guardar();
+} if ($method === "POST" && $ruta === "/empresa/editar"){
+    $controller = new empresaController();
+    $controller->actualizar();
+} if ($method === "POST" && $ruta === "/empresa/eliminar"){
+    $controller = new empresaController();
+    $controller->eliminar();
 }
 
 if ($method === "GET" && $uri === "/departamento") {
@@ -100,3 +112,18 @@ if ($method === "GET" && $uri === "/ingreso") {
     $controller = new ingresoController();
     $controller->crear();
 }
+
+
+
+if ($method === "GET" && $uri === "/departamento") {
+    $controller = new departamentoController();
+    $controller->index();
+} if ($method === "GET" && $uri === "/departamento/crear") {
+    $controller = new departamentoController();
+    $controller->crear();
+}
+if ($method === "POST" && $uri === "/departamento") {
+    $controller = new departamentoController();
+    $controller->guardar();
+}
+

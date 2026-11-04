@@ -1,3 +1,5 @@
+<h1>Crear empresa</h1>
+
 <form action="/empresa" method="POST">
     <label for="nombre_empresa">Nombre de la Empresa:</label><br>
     <input type="text" id="nombre_empresa" name="nombre_empresa"><br><br>

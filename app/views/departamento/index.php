@@ -6,7 +6,7 @@
     <tr>
         <th>ID</th>
         <th>Nombre</th>
-        <th>Descripcion</th>
+        <th>Descripcion</th>    
         <th>Presupuesto</th>
     </tr>
 

@@ -25,20 +25,20 @@ class Empresa
     }
 
 
-     public function getByid($id_empresa)
+    public function getByid($id_empresa)
     {
         try {
             $sql = "SELECT * FROM empresa WHERE id_empresa = :id_empresa";
 
             $consulta = $this->connection->prepare($sql);
 
-             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             $consulta->bindParam(":id_empresa", $id_empresa);
 
             $consulta->execute();
 
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             echo "Hay un error en el metodo getByid de empresa";
         }
@@ -63,13 +63,14 @@ class Empresa
             echo "Hay un error en el metodo create de empresa";
         }
     }
-    public function guardar($nombre_empresa,$nit,$direccion,$telefono,$correo){
+    public function guardar($nombre_empresa, $nit, $direccion, $telefono, $correo)
+    {
 
-             try {
+        try {
             $sql = "INSERT INTO empresa (nombre_empresa, nit, direccion, telefono, correo)
                     VALUES (:nombre_empresa, :nit, :direccion, :telefono, :correo)";
 
-        $consulta = $this->connection->prepare($sql);
+            $consulta = $this->connection->prepare($sql);
 
             $consulta->bindParam(":nombre_empresa", $nombre_empresa);
             $consulta->bindParam(":nit", $nit);
@@ -81,7 +82,37 @@ class Empresa
         } catch (PDOException $e) {
             echo "Hay un error en el metodo guardar de empresa";
         }
-
     }
-   
+
+    public function actualizar($id_empresa, $nombre_empresa, $nit, $direccion, $telefono, $correo)
+    {
+
+        $sql = "UPDATE empresa
+            SET nombre_empresa = :nombre_empresa,
+            nit = :nit,
+            direccion = :direccion,
+            telefono = :telefono,
+            correo = :correo
+            WHERE id_empresa = :id_empresa ";
+
+        $consulta = $this->connection->prepare($sql);
+        $consulta->bindParam(":id_empresa", $id_empresa);
+        $consulta->bindParam(":nombre_empresa", $nombre_empresa);
+        $consulta->bindParam(":nit", $nit);
+        $consulta->bindParam(":direccion", $direccion);
+        $consulta->bindParam(":telefono", $telefono);
+        $consulta->bindParam(":correo", $correo);
+
+        return $consulta->execute();
+    }
+
+    public function eliminar($id_empresa){
+
+        $sql = "DELETE FROM empresa WHERE id_empresa = :id_empresa";
+
+        $consulta = $this->connection->prepare($sql);
+        $consulta->bindParam(":id_empresa", $id_empresa);
+
+        return $consulta->execute();
+    }
 }
