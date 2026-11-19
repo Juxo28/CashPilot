@@ -2,7 +2,7 @@
 
 <form method="POST" action="/categoria/guardar">
     <label for="nombre_categoria">Nombre:</label><br>
-    <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
+    <input type="text" id="nombre_categoria" name="nombre_categoria" required><br><br>
 
     <label for="tipo_categoria">Tipo:</label><br>
     <select id="tipo_categoria" name="tipo_categoria">
@@ -14,4 +14,5 @@
     <input type="text" id="descripcion" name="descripcion"><br><br>
 
     <button type="submit">Guardar</button>
+    <a href="/categoria">Cancelar</a>
 </form>

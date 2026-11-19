@@ -1,8 +1,11 @@
 <h1>Nuevo usuario</h1>
 
-<form method="GET" action="/usuario/guardar">
-    Persona:<br>
-    <select name="id_persona">
+<?php if (empty($personas)): ?>
+    <p>Todas las personas ya tienen usuario. Primero <a href="/persona/crear">crea una persona</a>.</p>
+<?php else: ?>
+<form method="POST" action="/usuario">
+    <label for="id_persona">Persona</label><br>
+    <select id="id_persona" name="id_persona">
         <?php foreach ($personas as $persona): ?>
             <option value="<?= htmlspecialchars($persona['id_persona']) ?>">
                 <?= htmlspecialchars($persona['nombre'] . " " . $persona['apellido']) ?>
@@ -10,8 +13,8 @@
         <?php endforeach; ?>
     </select><br><br>
 
-    Rol:<br>
-    <select name="id_rol">
+    <label for="id_rol">Rol</label><br>
+    <select id="id_rol" name="id_rol">
         <?php foreach ($roles as $rol): ?>
             <option value="<?= htmlspecialchars($rol['id_rol']) ?>">
                 <?= htmlspecialchars($rol['nombre_rol']) ?>
@@ -19,11 +22,13 @@
         <?php endforeach; ?>
     </select><br><br>
 
-    Usuario:<br>
-    <input type="text" name="usuario"><br><br>
+    <label for="usuario">Usuario</label><br>
+    <input type="text" id="usuario" name="usuario" required><br><br>
 
-    Contraseña:<br>
-    <input type="password" name="password"><br><br>
+    <label for="password">Contraseña</label><br>
+    <input type="password" id="password" name="password" required><br><br>
 
     <button type="submit">Guardar</button>
+    <a href="/usuario">Cancelar</a>
 </form>
+<?php endif; ?>

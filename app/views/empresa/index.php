@@ -1,6 +1,6 @@
 <h1>Listado de empresas</h1>
 
-<a href="empresa/crear">Crear nueva empresa </a>
+<a href="/empresa/crear">Crear nueva empresa </a>
 
 
 <table border="1" cellpadding="6">
@@ -24,7 +24,7 @@
             <td><?= $empresa['fecha_registro'] ?></td>
             <td><a href="/empresa/editar?id=<?= $empresa['id_empresa'] ?>">Editar</a></td>
             <td>
-                <form action="/empresa/eliminar" method="POST">
+                <form action="/empresa/eliminar" method="POST" onsubmit="return confirm('¿Estas seguro de eliminar: <?= htmlspecialchars($empresa['nombre_empresa'], ENT_QUOTES) ?>?')">
 
                     <input type="hidden" name="id_empresa" value="<?= $empresa["id_empresa"] ?>"><br><br>
 

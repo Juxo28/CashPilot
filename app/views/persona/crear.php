@@ -1,17 +1,18 @@
 <h1>Nueva persona</h1>
 
-<form method="GET" action="/persona/guardar">
-    Nombre:<br>
-    <input type="text" name="nombre"><br><br>
+<form method="POST" action="/persona">
+    <label for="nombre">Nombre</label><br>
+    <input type="text" id="nombre" name="nombre" required><br><br>
 
-    Apellido:<br>
-    <input type="text" name="apellido"><br><br>
+    <label for="apellido">Apellido</label><br>
+    <input type="text" id="apellido" name="apellido" required><br><br>
 
-    Telefono:<br>
-    <input type="text" name="telefono"><br><br>
+    <label for="telefono">Telefono</label><br>
+    <input type="tel" id="telefono" name="telefono"><br><br>
 
-    Correo:<br>
-    <input type="text" name="correo"><br><br>
+    <label for="correo">Correo</label><br>
+    <input type="email" id="correo" name="correo"><br><br>
 
     <button type="submit">Guardar</button>
+    <a href="/persona">Cancelar</a>
 </form>

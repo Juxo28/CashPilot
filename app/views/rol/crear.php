@@ -1,11 +1,12 @@
 <h1>Nuevo rol</h1>
 
-<form method="GET" action="/rol/guardar">
-    Nombre:<br>
-    <input type="text" name="nombre_rol"><br><br>
+<form method="POST" action="/rol">
+    <label for="nombre_rol">Nombre</label><br>
+    <input type="text" id="nombre_rol" name="nombre_rol" required><br><br>
 
-    Descripcion:<br>
-    <input type="text" name="descripcion"><br><br>
+    <label for="descripcion">Descripcion</label><br>
+    <input type="text" id="descripcion" name="descripcion"><br><br>
 
     <button type="submit">Guardar</button>
+    <a href="/rol">Cancelar</a>
 </form>

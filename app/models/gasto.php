@@ -1,6 +1,9 @@
 <?php
 
-class Gasto{
+require_once __DIR__ . "/../../config/database.php";
+
+class Gasto
+{
     private $connection;
 
     public function __construct()
@@ -21,10 +24,10 @@ class Gasto{
                 FROM gasto
                 INNER JOIN categoria ON gasto.id_categoria = categoria.id_categoria
                 INNER JOIN departamento ON gasto.id_departamento = departamento.id_departamento
-                INNER JOIN usuario ON gasto.id_usuario = usuario.id_usuario";
+                INNER JOIN usuario ON gasto.id_usuario = usuario.id_usuario
+                ORDER BY gasto.fecha DESC, gasto.id_gasto DESC";
 
         $consulta = $this->connection->query($sql);
-        $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -34,27 +37,23 @@ class Gasto{
             $sql = "SELECT * FROM gasto WHERE id_gasto = :id_gasto";
 
             $consulta = $this->connection->prepare($sql);
-
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
             $consulta->bindParam(":id_gasto", $id_gasto);
-
             $consulta->execute();
 
-            return $consulta->fetchAll(PDO::FETCH_ASSOC);
+            return $consulta->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            echo "Hay un error en el metodo getByid de gasto";
+            echo "Hay un error en el metodo getByid de gasto: " . $e->getMessage();
+            return false;
         }
     }
 
-    public function create($id_empresa, $id_usuario, $id_departamento, $id_categoria, $monto, $fecha, $descripcion, $metodo_pago, $comprobante)
+    public function guardar($id_empresa, $id_usuario, $id_departamento, $id_categoria, $monto, $fecha, $descripcion, $metodo_pago, $comprobante)
     {
         try {
             $sql = "INSERT INTO gasto (id_empresa, id_departamento, id_categoria, id_usuario, monto, fecha, descripcion, metodo_pago, comprobante)
                     VALUES (:id_empresa, :id_departamento, :id_categoria, :id_usuario, :monto, :fecha, :descripcion, :metodo_pago, :comprobante)";
 
             $consulta = $this->connection->prepare($sql);
-
             $consulta->bindParam(":id_empresa", $id_empresa);
             $consulta->bindParam(":id_departamento", $id_departamento);
             $consulta->bindParam(":id_categoria", $id_categoria);
@@ -67,7 +66,48 @@ class Gasto{
 
             return $consulta->execute();
         } catch (PDOException $e) {
-            echo "Hay un error en el metodo create de gasto";
+            echo "Hay un error en el metodo guardar de gasto: " . $e->getMessage();
+            return false;
         }
+    }
+
+    public function actualizar($id_gasto, $id_departamento, $id_categoria, $monto, $fecha, $descripcion, $metodo_pago, $comprobante)
+    {
+        try {
+            $sql = "UPDATE gasto
+                    SET id_departamento = :id_departamento,
+                        id_categoria = :id_categoria,
+                        monto = :monto,
+                        fecha = :fecha,
+                        descripcion = :descripcion,
+                        metodo_pago = :metodo_pago,
+                        comprobante = :comprobante
+                    WHERE id_gasto = :id_gasto";
+
+            $consulta = $this->connection->prepare($sql);
+            $consulta->bindParam(":id_gasto", $id_gasto);
+            $consulta->bindParam(":id_departamento", $id_departamento);
+            $consulta->bindParam(":id_categoria", $id_categoria);
+            $consulta->bindParam(":monto", $monto);
+            $consulta->bindParam(":fecha", $fecha);
+            $consulta->bindParam(":descripcion", $descripcion);
+            $consulta->bindParam(":metodo_pago", $metodo_pago);
+            $consulta->bindParam(":comprobante", $comprobante);
+
+            return $consulta->execute();
+        } catch (PDOException $e) {
+            echo "Hay un error en el metodo actualizar de gasto: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function eliminar($id_gasto)
+    {
+        $sql = "DELETE FROM gasto WHERE id_gasto = :id_gasto";
+
+        $consulta = $this->connection->prepare($sql);
+        $consulta->bindParam(":id_gasto", $id_gasto);
+
+        return $consulta->execute();
     }
 }

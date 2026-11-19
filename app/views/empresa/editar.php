@@ -23,13 +23,3 @@
 <button type="submit">Guardar</button>
 
 </form> <br>
-
-<h3> Estas seguro que quieres eliminar la empresa?</h3>
-
-<form action="/empresa/eliminar" method="POST">
-
-<input type="hidden" name="id_empresa" value="<?= $empresa["id_empresa"] ?>"><br><br>
-
-<button type="submit">Borrar</button>
-
-</form>

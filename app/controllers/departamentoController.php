@@ -8,24 +8,23 @@ class departamentoController
     {
         try {
             $departamento = new Departamento();
-
             $departamentos = $departamento->getAll();
-
-            $departamentoConsultado = $departamento->getById("0 or 1=1");
 
             require_once __DIR__ . "/../views/departamento/index.php";
         } catch (PDOException $e) {
-            echo "Hay un error en el controlador de departamento";
+            echo "Hay un error en el controlador de departamento: " . $e->getMessage();
         }
     }
 
-     public function crear(){
+    public function crear()
+    {
         require_once __DIR__ . "/../views/departamento/crear.php";
     }
 
     public function guardar()
     {
-        $id_empresa = 1;
+        $id_empresa = 1; // temporal, hasta que exista el login
+
         $nombre_departamento = $_POST['nombre_departamento'];
         $descripcion = $_POST['descripcion'];
         $presupuesto = $_POST['presupuesto'];
@@ -34,10 +33,60 @@ class departamentoController
         $resultado = $departamento->guardar($id_empresa, $nombre_departamento, $descripcion, $presupuesto);
 
         if ($resultado) {
-            echo "Departamento guardada conrrectamente";
-            $this->index();
+            echo "<p>Departamento guardado correctamente</p>";
         } else {
-            echo "No se pudo guardar la informacion";
+            echo "<p>No se pudo guardar la informacion</p>";
         }
+
+        $this->index();
+    }
+
+    public function editar()
+    {
+        $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+        $departamentoM = new Departamento();
+        $departamento = $departamentoM->getByid($id);
+
+        if (!$departamento) {
+            echo "<p>El departamento no existe</p>";
+            return $this->index();
+        }
+
+        require_once __DIR__ . "/../views/departamento/editar.php";
+    }
+
+    public function actualizar()
+    {
+        $id = $_POST['id_departamento'];
+        $nombre = $_POST['nombre_departamento'];
+        $descripcion = $_POST['descripcion'];
+        $presupuesto = $_POST['presupuesto'];
+
+        $departamento = new Departamento();
+        if ($departamento->actualizar($id, $nombre, $descripcion, $presupuesto)) {
+            echo "<p>Departamento actualizado correctamente</p>";
+        }
+
+        return $this->index();
+    }
+
+    public function eliminar()
+    {
+        $id = $_POST['id_departamento'];
+
+        try {
+            $departamento = new Departamento();
+            $departamento->eliminar($id);
+            echo "<p>Departamento eliminado correctamente</p>";
+        } catch (PDOException $e) {
+            if ($e->getCode() == 23000) {
+                echo "<p>No se puede eliminar el departamento porque tiene gastos asociados.</p>";
+            } else {
+                echo "<p>Ocurrió un error al intentar eliminar el departamento.</p>";
+            }
+        }
+
+        return $this->index();
     }
 }
