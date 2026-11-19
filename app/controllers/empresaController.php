@@ -31,13 +31,6 @@ class empresaController
 
         $empresa = new Empresa();
         $resultado = $empresa->guardar($nombre_empresa, $nit, $direccion, $telefono, $correo);
-
-        if ($resultado) {
-            echo "Empresa guardada correctamente";
-            $this->index();
-        } else {
-            echo "No se pudo guardar la informacion";
-        }
     }
 
     public function editar()
