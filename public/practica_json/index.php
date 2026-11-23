@@ -73,6 +73,6 @@ foreach ($productos as $indice => $producto) {
     }
 }
 
-$nuevoJSON = json_encode($productos, JSON_PRETTY_PRINT);
+$nuevoJSON = json_encode($productos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
 echo "<pre>" . $nuevoJSON . "</pre>";
