@@ -1,6 +1,6 @@
 <h1>Actualizando departamento</h1>
 
-<form action="/departamento/editar" method="POST">
+<form action="<?= url('/departamento/editar') ?>" method="POST">
 
     <input type="hidden" name="id_departamento" value="<?= $departamento['id_departamento'] ?>">
 
@@ -14,5 +14,5 @@
     <input type="number" id="presupuesto" name="presupuesto" min="0" step="0.01" value="<?= htmlspecialchars($departamento['presupuesto']) ?>" required><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/departamento">Cancelar</a>
+    <a href="<?= url('/departamento') ?>">Cancelar</a>
 </form>

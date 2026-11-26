@@ -1,6 +1,6 @@
 <h1>Actualizando gasto</h1>
 
-<form action="/gasto/editar" method="POST">
+<form action="<?= url('/gasto/editar') ?>" method="POST">
 
     <input type="hidden" name="id_gasto" value="<?= $gasto['id_gasto'] ?>">
 
@@ -42,5 +42,5 @@
     <input type="text" id="comprobante" name="comprobante" value="<?= htmlspecialchars($gasto['comprobante'] ?? '') ?>"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/gasto">Cancelar</a>
+    <a href="<?= url('/gasto') ?>">Cancelar</a>
 </form>

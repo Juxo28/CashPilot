@@ -28,9 +28,6 @@ CashPilot
 │   ├── models         (un modelo por tabla, con getAll/getByid/create)
 │   └── views          (una carpeta por modulo: index.php y crear.php)
 │
-├── class
-│   └── Persona.php    (clase de práctica de POO, aparte del modelo de BD)
-│
 ├── config
 │   └── Database.php
 │

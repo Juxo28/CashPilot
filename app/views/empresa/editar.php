@@ -1,6 +1,6 @@
 <h1> Actualizando Datos</h1>
 
-<form action="/empresa/editar" method="POST">
+<form action="<?= url('/empresa/editar') ?>" method="POST">
 
 <input type="hidden" name="id_empresa" value="<?= $empresa["id_empresa"] ?>"><br><br>
 

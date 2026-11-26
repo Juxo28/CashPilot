@@ -1,30 +1,35 @@
-<h1>Listado de departamentos</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Departamentos</h1>
+    <a class="btn btn-primary" href="<?= url('/departamento/crear') ?>">Nuevo departamento</a>
+</div>
 
-<a href="/departamento/crear">Nuevo departamento</a>
-
-<table border="1" cellpadding="6">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>Presupuesto</th>
-        <th></th>
-        <th></th>
-    </tr>
-
-    <?php foreach ($departamentos as $departamento): ?>
-        <tr>
-            <td><?= htmlspecialchars($departamento['id_departamento']) ?></td>
-            <td><?= htmlspecialchars($departamento['nombre_departamento']) ?></td>
-            <td><?= htmlspecialchars($departamento['descripcion'] ?? '') ?></td>
-            <td><?= htmlspecialchars($departamento['presupuesto']) ?></td>
-            <td><a href="/departamento/editar?id=<?= $departamento['id_departamento'] ?>">Editar</a></td>
-            <td>
-                <form action="/departamento/eliminar" method="POST" onsubmit="return confirm('¿Estas seguro de eliminar: <?= htmlspecialchars($departamento['nombre_departamento'], ENT_QUOTES) ?>?')">
-                    <input type="hidden" name="id_departamento" value="<?= $departamento['id_departamento'] ?>">
-                    <button type="submit">Borrar</button>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th class="text-end">Presupuesto</th>
+                <th class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($departamentos as $departamento): ?>
+                <tr>
+                    <td><?= e($departamento['id_departamento']) ?></td>
+                    <td><?= e($departamento['nombre_departamento']) ?></td>
+                    <td><?= e($departamento['descripcion']) ?></td>
+                    <td class="text-end"><?= dinero($departamento['presupuesto']) ?></td>
+                    <td class="text-end text-nowrap">
+                        <a class="btn btn-sm btn-outline-warning" href="<?= url('/departamento/editar') ?>?id=<?= e($departamento['id_departamento']) ?>">Editar</a>
+                        <form class="d-inline" action="<?= url('/departamento/eliminar') ?>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar: <?= e($departamento['nombre_departamento']) ?>?')">
+                            <input type="hidden" name="id_departamento" value="<?= e($departamento['id_departamento']) ?>">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

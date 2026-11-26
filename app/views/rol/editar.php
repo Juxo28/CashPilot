@@ -1,6 +1,6 @@
 <h1>Actualizando rol</h1>
 
-<form action="/rol/editar" method="POST">
+<form action="<?= url('/rol/editar') ?>" method="POST">
 
     <input type="hidden" name="id_rol" value="<?= $rol['id_rol'] ?>">
 
@@ -11,5 +11,5 @@
     <input type="text" id="descripcion" name="descripcion" value="<?= htmlspecialchars($rol['descripcion'] ?? '') ?>"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/rol">Cancelar</a>
+    <a href="<?= url('/rol') ?>">Cancelar</a>
 </form>

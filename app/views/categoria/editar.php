@@ -1,6 +1,6 @@
 <h1>Actualizando categoria</h1>
 
-<form action="/categoria/editar" method="POST">
+<form action="<?= url('/categoria/editar') ?>" method="POST">
 
     <input type="hidden" name="id_categoria" value="<?= $categoria['id_categoria'] ?>">
 
@@ -17,5 +17,5 @@
     <input type="text" id="descripcion" name="descripcion" value="<?= htmlspecialchars($categoria['descripcion'] ?? '') ?>"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/categoria">Cancelar</a>
+    <a href="<?= url('/categoria') ?>">Cancelar</a>
 </form>

@@ -31,6 +31,8 @@ class empresaController
 
         $empresa = new Empresa();
         $resultado = $empresa->guardar($nombre_empresa, $nit, $direccion, $telefono, $correo);
+
+        return $this->index();
     }
 
     public function editar()
@@ -76,4 +78,23 @@ class empresaController
 
     return $this->index();
 }
+
+     public function listarJson()
+    {
+        header("Content-Type: application/json; charset=utf-8");
+
+        try {
+            $empresa = new Empresa();
+            $empresas = $empresa->getAll();
+
+            http_response_code(200);
+            echo json_encode($empresas, JSON_UNESCAPED_UNICODE);
+        } catch (PDOException $e){
+            http_response_code(500);
+            echo json_encode([
+                "mensaje" => "Error al consultar las empresas"
+            ], JSON_UNESCAPED_UNICODE);
+        }
+    }
 }
+

@@ -1,9 +1,9 @@
 <h1>Nuevo usuario</h1>
 
 <?php if (empty($personas)): ?>
-    <p>Todas las personas ya tienen usuario. Primero <a href="/persona/crear">crea una persona</a>.</p>
+    <p>Todas las personas ya tienen usuario. Primero <a href="<?= url('/persona/crear') ?>">crea una persona</a>.</p>
 <?php else: ?>
-<form method="POST" action="/usuario">
+<form method="POST" action="<?= url('/usuario') ?>">
     <label for="id_persona">Persona</label><br>
     <select id="id_persona" name="id_persona">
         <?php foreach ($personas as $persona): ?>
@@ -29,6 +29,6 @@
     <input type="password" id="password" name="password" required><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/usuario">Cancelar</a>
+    <a href="<?= url('/usuario') ?>">Cancelar</a>
 </form>
 <?php endif; ?>

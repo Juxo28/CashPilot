@@ -1,6 +1,6 @@
 <h1>Nueva categoria</h1>
 
-<form method="POST" action="/categoria/guardar">
+<form method="POST" action="<?= url('/categoria/guardar') ?>">
     <label for="nombre_categoria">Nombre:</label><br>
     <input type="text" id="nombre_categoria" name="nombre_categoria" required><br><br>
 
@@ -14,5 +14,5 @@
     <input type="text" id="descripcion" name="descripcion"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/categoria">Cancelar</a>
+    <a href="<?= url('/categoria') ?>">Cancelar</a>
 </form>

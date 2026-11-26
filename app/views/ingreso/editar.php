@@ -1,6 +1,6 @@
 <h1>Actualizando ingreso</h1>
 
-<form action="/ingreso/editar" method="POST">
+<form action="<?= url('/ingreso/editar') ?>" method="POST">
 
     <input type="hidden" name="id_ingreso" value="<?= $ingreso['id_ingreso'] ?>">
 
@@ -26,5 +26,5 @@
     <input type="text" id="fuente" name="fuente" value="<?= htmlspecialchars($ingreso['fuente'] ?? '') ?>"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/ingreso">Cancelar</a>
+    <a href="<?= url('/ingreso') ?>">Cancelar</a>
 </form>

@@ -1,6 +1,6 @@
 <h1>Actualizando usuario</h1>
 
-<form action="/usuario/editar" method="POST">
+<form action="<?= url('/usuario/editar') ?>" method="POST">
 
     <input type="hidden" name="id_usuario" value="<?= $usuario['id_usuario'] ?>">
 
@@ -35,5 +35,5 @@
     <input type="password" id="password" name="password"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/usuario">Cancelar</a>
+    <a href="<?= url('/usuario') ?>">Cancelar</a>
 </form>

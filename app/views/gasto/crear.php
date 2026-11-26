@@ -1,6 +1,6 @@
 <h1>Nuevo gasto</h1>
 
-<form method="POST" action="/gasto">
+<form method="POST" action="<?= url('/gasto') ?>">
     <label for="id_departamento">Departamento</label><br>
     <select id="id_departamento" name="id_departamento" required>
         <?php foreach ($departamentos as $departamento): ?>
@@ -39,5 +39,5 @@
     <input type="text" id="comprobante" name="comprobante"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/gasto">Cancelar</a>
+    <a href="<?= url('/gasto') ?>">Cancelar</a>
 </form>

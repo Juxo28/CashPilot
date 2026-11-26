@@ -1,6 +1,6 @@
 <h1>Nuevo ingreso</h1>
 
-<form method="POST" action="/ingreso">
+<form method="POST" action="<?= url('/ingreso') ?>">
     <label for="id_categoria">Categoria</label><br>
     <select id="id_categoria" name="id_categoria" required>
         <?php foreach ($categorias as $categoria): ?>
@@ -23,5 +23,5 @@
     <input type="text" id="fuente" name="fuente"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/ingreso">Cancelar</a>
+    <a href="<?= url('/ingreso') ?>">Cancelar</a>
 </form>

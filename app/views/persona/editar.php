@@ -1,6 +1,6 @@
 <h1>Actualizando persona</h1>
 
-<form action="/persona/editar" method="POST">
+<form action="<?= url('/persona/editar') ?>" method="POST">
 
     <input type="hidden" name="id_persona" value="<?= $persona['id_persona'] ?>">
 
@@ -17,5 +17,5 @@
     <input type="email" id="correo" name="correo" value="<?= htmlspecialchars($persona['correo'] ?? '') ?>"><br><br>
 
     <button type="submit">Guardar</button>
-    <a href="/persona">Cancelar</a>
+    <a href="<?= url('/persona') ?>">Cancelar</a>
 </form>

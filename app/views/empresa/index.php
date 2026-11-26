@@ -1,37 +1,39 @@
-<h1>Listado de empresas</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Empresas</h1>
+    <a class="btn btn-primary" href="<?= url('/empresa/crear') ?>">Nueva empresa</a>
+</div>
 
-<a href="/empresa/crear">Crear nueva empresa </a>
-
-
-<table border="1" cellpadding="6">
-    <tr>
-        <th>Nombre_Empresa</th>
-        <th>NIT</th>
-        <th>Direccion</th>
-        <th>Telefono</th>
-        <th>Correo</th>
-        <th>Fecha-Registro</th>
-        <th></th>
-    </tr>
-
-    <?php foreach ($empresas as $empresa): ?>
-        <tr>
-            <td><?= $empresa['nombre_empresa'] ?></td>
-            <td><?= $empresa['nit'] ?></td>
-            <td><?= $empresa['direccion'] ?></td>
-            <td><?= $empresa['telefono'] ?></td>
-            <td><?= $empresa['correo'] ?></td>
-            <td><?= $empresa['fecha_registro'] ?></td>
-            <td><a href="/empresa/editar?id=<?= $empresa['id_empresa'] ?>">Editar</a></td>
-            <td>
-                <form action="/empresa/eliminar" method="POST" onsubmit="return confirm('¿Estas seguro de eliminar: <?= htmlspecialchars($empresa['nombre_empresa'], ENT_QUOTES) ?>?')">
-
-                    <input type="hidden" name="id_empresa" value="<?= $empresa["id_empresa"] ?>"><br><br>
-
-                    <button type="submit">Borrar</button>
-
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>NIT</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Fecha de registro</th>
+                <th class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($empresas as $empresa): ?>
+                <tr>
+                    <td><?= e($empresa['nombre_empresa']) ?></td>
+                    <td><?= e($empresa['nit']) ?></td>
+                    <td><?= e($empresa['direccion']) ?></td>
+                    <td><?= e($empresa['telefono']) ?></td>
+                    <td><?= e($empresa['correo']) ?></td>
+                    <td><?= e($empresa['fecha_registro']) ?></td>
+                    <td class="text-end text-nowrap">
+                        <a class="btn btn-sm btn-outline-warning" href="<?= url('/empresa/editar') ?>?id=<?= e($empresa['id_empresa']) ?>">Editar</a>
+                        <form class="d-inline" action="<?= url('/empresa/eliminar') ?>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar: <?= e($empresa['nombre_empresa']) ?>?')">
+                            <input type="hidden" name="id_empresa" value="<?= e($empresa['id_empresa']) ?>">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

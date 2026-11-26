@@ -1,28 +1,33 @@
-<h1>Listado de roles</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Roles</h1>
+    <a class="btn btn-primary" href="<?= url('/rol/crear') ?>">Nuevo rol</a>
+</div>
 
-<a href="/rol/crear">Nuevo rol</a>
-
-<table border="1" cellpadding="6">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th></th>
-        <th></th>
-    </tr>
-
-    <?php foreach ($roles as $rol): ?>
-        <tr>
-            <td><?= htmlspecialchars($rol['id_rol']) ?></td>
-            <td><?= htmlspecialchars($rol['nombre_rol']) ?></td>
-            <td><?= htmlspecialchars($rol['descripcion'] ?? '') ?></td>
-            <td><a href="/rol/editar?id=<?= $rol['id_rol'] ?>">Editar</a></td>
-            <td>
-                <form action="/rol/eliminar" method="POST" onsubmit="return confirm('¿Estas seguro de eliminar: <?= htmlspecialchars($rol['nombre_rol'], ENT_QUOTES) ?>?')">
-                    <input type="hidden" name="id_rol" value="<?= $rol['id_rol'] ?>">
-                    <button type="submit">Borrar</button>
-                </form>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th class="text-end">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($roles as $rol): ?>
+                <tr>
+                    <td><?= e($rol['id_rol']) ?></td>
+                    <td><?= e($rol['nombre_rol']) ?></td>
+                    <td><?= e($rol['descripcion']) ?></td>
+                    <td class="text-end text-nowrap">
+                        <a class="btn btn-sm btn-outline-warning" href="<?= url('/rol/editar') ?>?id=<?= e($rol['id_rol']) ?>">Editar</a>
+                        <form class="d-inline" action="<?= url('/rol/eliminar') ?>" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar: <?= e($rol['nombre_rol']) ?>?')">
+                            <input type="hidden" name="id_rol" value="<?= e($rol['id_rol']) ?>">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
